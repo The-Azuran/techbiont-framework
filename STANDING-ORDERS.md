@@ -4,7 +4,7 @@ Master reference for AI-assisted development across all projects.
 
 **Maintained by:** Rowan Valle (Valis) - Symbiont Systems LLC
 **Last updated:** 2026-02-02
-**Version:** 2.0 (Research-informed revision)
+**Version:** 2.1 (Added continuity, metrics, domain adaptations)
 
 ---
 
@@ -71,7 +71,7 @@ After significant work sessions, conduct a brief retrospective:
 - How can our methods better leverage each component's strengths?
 - What should be added to standing orders or lessons learned?
 
-Document insights in Part VII (After Action Reports).
+Document insights in Part X (After Action Reports).
 
 **Metrics to track:**
 - Error rate by task type
@@ -176,7 +176,7 @@ Every work product must be auditable. See Part IV for detailed protocols.
 The methods in this document are not fixed:
 
 1. **Reflect after sessions** - What worked? What didn't?
-2. **Capture lessons learned** - Document in Part VII
+2. **Capture lessons learned** - Document in Part X
 3. **Update standing orders** - When patterns emerge from lessons
 4. **Share across projects** - Improvements benefit all work
 
@@ -538,7 +538,221 @@ It's faster to step in than to continue prompting a struggling model.
 
 ---
 
-## Part VII: After Action Reports & Lessons Learned
+## Part VII: Session Continuity
+
+Multi-session work is the norm, not the exception. Context must persist across days and weeks.
+
+### The Continuity Problem
+
+> "Creating a handoff takes 2-3 minutes. Re-establishing context without one takes 10-15 minutes."
+
+Each new session starts with zero memory of prior work. Without explicit continuity mechanisms, the techbiont loses accumulated understanding and repeats mistakes.
+
+### Built-in Session Management
+
+Claude Code provides native session continuity:
+
+| Command | Effect |
+|---------|--------|
+| `claude -c` | Continue most recent conversation |
+| `claude --resume` | Pick from recent sessions |
+| `claude -r "session-id"` | Resume specific session |
+
+**Use `claude -c` by default** when continuing work from a prior session.
+
+### Session Handoff Protocol
+
+When ending a session that will continue later, create a handoff note:
+
+```markdown
+## Session Handoff: [Date]
+
+### Completed
+- [What was accomplished]
+
+### In Progress
+- [Partially complete work]
+
+### Next Steps
+- [What to do next session]
+
+### Context Notes
+- [Important decisions, blockers, gotchas discovered]
+
+### Files Modified
+- [List of changed files]
+```
+
+**Storage options:**
+- Project: `.claude/handoff.md` (for project-specific work)
+- Global: `~/.claude/handoff.md` (for cross-project work)
+- Docs: `docs/session-notes/YYYY-MM-DD.md` (for permanent record)
+
+### Memory File Hierarchy
+
+Claude Code loads memory files automatically at session start:
+
+| Scope | Location | Purpose |
+|-------|----------|---------|
+| User | `~/.claude/CLAUDE.md` | Personal preferences, global rules |
+| Project | `./CLAUDE.md` or `./.claude/CLAUDE.md` | Project-specific context |
+| Rules | `.claude/rules/*.md` | Modular rule files for teams |
+
+**Keep memory files lean**—they consume context window space every session.
+
+### Long-Running Project Strategies
+
+For work spanning days or weeks:
+
+1. **Maintain a living CHANGELOG** - Update as work progresses
+2. **Use task lists** - Persistent state across sessions
+3. **Commit frequently** - Git history serves as session log
+4. **Document decisions** - Architecture Decision Records (ADRs) persist reasoning
+5. **Session summaries** - End each session with a handoff note
+
+### Context Compaction Warning
+
+Claude Code may compact context during long sessions, potentially losing accumulated understanding. Mitigations:
+
+- Commit important context to files (CLAUDE.md, docs)
+- Break long sessions into focused chunks
+- Use task lists for state that must persist
+
+---
+
+## Part VIII: Metrics & Measurement
+
+What gets measured gets improved. Track techbiont effectiveness systematically.
+
+### The Productivity Paradox
+
+Research reveals counterintuitive findings:
+
+| Finding | Source |
+|---------|--------|
+| Experienced devs took **19% longer** with AI on familiar codebases | [METR Study](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) |
+| Developers **believed** AI sped them up by 20% (it didn't) | METR Study |
+| AI adoption correlates with **9% more bugs** per developer | Faros AI |
+| PR sizes increased **154%** with AI | Faros AI |
+| **81%** saw quality improvements when using AI for code review | Qodo Report |
+
+**Implication:** AI helps most with review and verification, not raw generation. Matches our emphasis on auditing.
+
+### What to Track
+
+**Per-Session Metrics:**
+- Tasks completed vs. planned
+- Rework incidents (how often did AI output need fixing?)
+- Verification catches (bugs caught by audit before shipping)
+- Context failures (errors from missing information)
+
+**Per-Project Metrics:**
+- Defect rate in AI-assisted vs. manual code
+- Time from task start to verified completion
+- Handoff quality (how long to resume context?)
+
+**Quarterly Review:**
+- Patterns in AAR lessons learned
+- Standing order updates triggered by failures
+- Domain-specific adaptations needed
+
+### Measurement Framework
+
+Adapt the **SPACE framework** for techbiont work:
+
+| Dimension | What to Measure |
+|-----------|-----------------|
+| **S**atisfaction | Is the collaboration improving? Friction points? |
+| **P**erformance | Task completion rate, defect rate, rework rate |
+| **A**ctivity | Sessions per week, tasks per session, commits |
+| **C**ommunication | Clarity of prompts, handoff quality |
+| **E**fficiency | Time to verified completion, context restoration time |
+
+### Tracking Implementation
+
+**Lightweight approach:**
+- End-of-session note with 3 numbers: tasks done, rework incidents, verification catches
+- Weekly review of session notes
+- Monthly AAR if patterns emerge
+
+**Structured approach:**
+- Log metrics in `.claude/metrics.jsonl`
+- Automated extraction from git history
+- Periodic analysis and standing order updates
+
+### Avoid Vanity Metrics
+
+Don't track:
+- Lines of code generated (encourages bloat)
+- Speed without quality (encourages skipping verification)
+- Session count without outcomes (activity ≠ progress)
+
+---
+
+## Part IX: Domain-Specific Adaptations
+
+Different domains have different AI collaboration patterns. Adapt methods accordingly.
+
+### GIS & Spatial Analysis
+
+**Unique challenges:**
+- LLMs have limited GIScience knowledge—often omit reprojection steps
+- CRS/projection errors are common and subtle
+- Multi-modal data (vector, raster, imagery) requires specialized handling
+- GDAL/QGIS tool parameters frequently misconfigured
+
+**Adaptations:**
+- **Always verify CRS** - Check projections before and after operations
+- **Provide tool documentation** - Don't assume AI knows GDAL flags
+- **Test with known data** - Verify spatial operations on simple cases first
+- **Document data lineage** - Track sources, transformations, CRS changes
+- **Prefer well-documented tools** - GeoPandas over obscure GDAL utilities
+
+**Autonomy adjustment:** Default to **L1 (Operator)** for spatial operations. AI proposes, human verifies every step.
+
+### Web Development (Margin)
+
+**Unique challenges:**
+- Framework churn—AI may suggest outdated patterns
+- State management complexity
+- Testing browser behavior requires manual verification
+
+**Adaptations:**
+- **Provide framework docs** - Include current React/TipTap patterns in context
+- **Verify in browser** - Automated tests + manual verification
+- **Component isolation** - Small, testable components reduce blast radius
+- **Query key consistency** - Follow established React Query patterns
+
+**Autonomy adjustment:** **L2 (Collaborator)** for most work, **L1** for state management and data flow.
+
+### Game Development (New-Belen)
+
+**Unique challenges:**
+- Balance tuning requires human judgment
+- Narrative coherence across procedural content
+- Pure stdlib constraint limits AI's library suggestions
+
+**Adaptations:**
+- **Preserve existing behavior** - Game balance is fragile
+- **Flag design decisions** - AI shouldn't make narrative choices
+- **Test playthroughs** - Automated tests can't catch "feel"
+- **No external deps** - Reject any suggestions requiring imports
+
+**Autonomy adjustment:** **L2 (Collaborator)** for code, **L1 (Operator)** for game design decisions.
+
+### Domain Selection Guide
+
+| Domain Characteristic | Recommended Autonomy | Key Adaptation |
+|----------------------|---------------------|----------------|
+| High data correctness requirements | L1 | Verify every operation |
+| Rapidly evolving frameworks | L2 + docs | Provide current docs in context |
+| Subjective quality (UX, game feel) | L1 for design | Human judgment on aesthetics |
+| Well-defined transformations | L3 | Clear input/output specs |
+| Security-critical | L1 always | Human reviews all code |
+
+---
+
+## Part X: After Action Reports & Lessons Learned
 
 ### Template
 
@@ -578,6 +792,21 @@ It's faster to step in than to continue prompting a struggling model.
 
 <!-- Add lessons learned below, newest first -->
 
+#### 2026-02-02: Continuity, Metrics, and Domain Research
+
+**Lesson:** Different domains require different AI collaboration patterns. GIS work needs L1 autonomy due to spatial reasoning gaps. Metrics research reveals AI helps most with review/verification, not raw generation—validating our audit-heavy approach.
+
+**Key findings:**
+- Session handoffs save 10-15 minutes of context re-establishment
+- METR study: experienced devs 19% slower with AI on familiar codebases
+- AI adoption correlates with 9% more bugs but 81% quality improvement when used for review
+- GIS-specific: LLMs frequently omit reprojection, misconfigure GDAL parameters
+
+**Actions:**
+- Added Part VII: Session Continuity (handoff protocols, memory hierarchy)
+- Added Part VIII: Metrics & Measurement (what to track, SPACE framework)
+- Added Part IX: Domain-Specific Adaptations (GIS, web, game dev)
+
 #### 2026-02-02: Research-Informed Revision
 
 **Lesson:** Industry research and practitioner experience provide empirically-validated guidance that improves on intuition alone.
@@ -600,7 +829,7 @@ It's faster to step in than to continue prompting a struggling model.
 
 ---
 
-## Part VIII: Templates
+## Part XI: Templates
 
 ### Project CLAUDE.md Template
 
@@ -714,6 +943,36 @@ Types: feat, fix, refactor, docs, test, chore
 [How to structure the response]
 ```
 
+### Session Handoff Template
+
+```markdown
+## Session Handoff: [YYYY-MM-DD]
+
+### Completed This Session
+- [Task 1]
+- [Task 2]
+
+### In Progress (Partially Complete)
+- [Partial work with current state]
+
+### Next Steps
+1. [First priority next session]
+2. [Second priority]
+
+### Context Notes
+- [Important decisions made]
+- [Blockers discovered]
+- [Gotchas to remember]
+
+### Files Modified
+- `path/to/file.ts` - [brief description of changes]
+
+### Commands to Resume
+```bash
+# [Any commands needed to restore state]
+```
+```
+
 ---
 
 ## Appendix A: Anti-Patterns
@@ -737,15 +996,39 @@ Types: feat, fix, refactor, docs, test, chore
 
 This document incorporates findings from:
 
+**Core Practices:**
 - [Addy Osmani - LLM Coding Workflow 2026](https://addyosmani.com/blog/ai-coding-workflow/)
 - [Simon Willison - Using LLMs for Code](https://simonwillison.net/2025/Mar/11/using-llms-for-code/)
 - [Anthropic - Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
 - [Arize - CLAUDE.md Prompt Optimization](https://arize.com/blog/claude-md-best-practices-learned-from-optimizing-claude-code-with-prompt-learning/)
+
+**Autonomy & Frameworks:**
 - [Knight First Amendment Institute - Autonomy Levels](https://knightcolumbia.org/content/levels-of-autonomy-for-ai-agents-1)
 - [JetBrains Research - Context Management](https://blog.jetbrains.com/research/2025/12/efficient-context-management/)
+
+**Quality & Verification:**
 - [AI Code Review Tools 2025](https://www.digitalocean.com/resources/articles/ai-code-review-tools)
 - [LLM Code Verification Research](https://arxiv.org/abs/2507.06920)
 - [Human-AI Pair Programming Studies](https://ceur-ws.org/Vol-3487/paper3.pdf)
+
+**Metrics & Productivity:**
+- [METR - AI Impact on Developer Productivity](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)
+- [Faros AI - The AI Productivity Paradox](https://www.faros.ai/blog/ai-software-engineering)
+- [JetBrains - State of Developer Ecosystem 2025](https://blog.jetbrains.com/research/2025/10/state-of-developer-ecosystem-2025/)
+- [Qodo - State of AI Code Quality 2025](https://www.qodo.ai/reports/state-of-ai-code-quality/)
+
+**Session Continuity:**
+- [Claude Code Memory Documentation](https://code.claude.com/docs/en/memory)
+- [Session Handoffs - DEV Community](https://dev.to/dorothyjb/session-handoffs-giving-your-ai-assistant-memory-that-actually-persists-je9)
+- [LangChain - Long-term Memory Concepts](https://langchain-ai.github.io/langmem/concepts/conceptual_guide/)
+
+**Domain-Specific (GIS):**
+- [GIS Copilot - Autonomous GIS Agent](https://www.tandfonline.com/doi/full/10.1080/17538947.2025.2497489)
+- [GeoAnalystBench - LLM Spatial Analysis](https://onlinelibrary.wiley.com/doi/10.1111/tgis.70135)
+
+**Domain-Specific (Game Dev):**
+- [Generative AI in Game Design - PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC12193870/)
+- [Google Cloud - 90% of Game Devs Using AI](https://www.googlecloudpresscorner.com/2025-08-18-90-of-Games-Developers-Already-Using-AI-in-Workflows,-According-to-New-Google-Cloud-Research)
 
 ---
 
