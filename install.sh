@@ -21,6 +21,7 @@ echo ""
 # Create directories
 mkdir -p "$RULES_DIR"
 mkdir -p "$SKILLS_DIR"
+SCRATCHPAD_DIR="$CLAUDE_DIR/scratchpad"
 
 # --- Symlinked files (auto-update on git pull) ---
 
@@ -98,13 +99,35 @@ else
     echo "  [skip]    rules/00-operator.md already exists — not overwriting"
 fi
 
+# --- Scratchpad (persistent staging area) ---
+
+mkdir -p "$SCRATCHPAD_DIR/agent-output"
+mkdir -p "$SCRATCHPAD_DIR/snapshots"
+
+if [ ! -e "$SCRATCHPAD_DIR/MANIFEST.md" ]; then
+    cat > "$SCRATCHPAD_DIR/MANIFEST.md" << 'MANIFEST'
+# Scratchpad Manifest (Global)
+
+Persistent staging area for cross-project work-in-progress.
+Governed by the scratchpad operon (Cystozooid).
+
+| File | Purpose | Target | Status | Created | Last Touched |
+|------|---------|--------|--------|---------|--------------|
+| | | | | | |
+MANIFEST
+    echo "  [create]  scratchpad/MANIFEST.md (cystozooid)"
+else
+    echo "  [skip]    scratchpad/MANIFEST.md already exists"
+fi
+
 echo ""
 echo "Colony installed."
 echo ""
 echo "Architecture:"
-echo "  Zooids  (rules/)  — always-loaded core rules"
-echo "  Operons (skills/) — trigger-activated knowledge modules"
-echo "  Genome            — canonical reference, read on demand"
+echo "  Zooids     (rules/)      — always-loaded core rules"
+echo "  Operons    (skills/)     — trigger-activated knowledge modules"
+echo "  Scratchpad (scratchpad/) — persistent staging area"
+echo "  Genome                   — canonical reference, read on demand"
 echo ""
 echo "Next steps:"
 echo "  1. Edit ~/.claude/CLAUDE.md with your identity and authorship info"
