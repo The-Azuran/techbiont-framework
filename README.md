@@ -6,7 +6,17 @@ MESO treats the human-AI collaboration not as a tool-user relationship but as a 
 
 ## Architecture: The Siphonophore Model
 
-MESO organizes the symbiosis as a **colonial organism**, inspired by [siphonophores](https://en.wikipedia.org/wiki/Siphonophorae) — marine creatures that appear to be single organisms but are actually colonies of specialized individuals (zooids) working as one.
+MESO organizes the symbiosis as a **colonial organism**, inspired by [siphonophores](https://en.wikipedia.org/wiki/Siphonophorae) — marine creatures that appear to be single organisms but are actually colonies of specialized individuals working as one.
+
+The colony has three types of functional units:
+
+| Unit | Location | Loading | Purpose |
+|------|----------|---------|---------|
+| **Zooids** | `rules/` | Always loaded | Core operational rules — active every turn |
+| **Operons** | `skills/` | Trigger-activated | Domain knowledge — loads when context matches |
+| **Genome** | `STANDING-ORDERS.md` | On demand | Canonical reference — rationale, citations, templates |
+
+**Zooids** are always in context, like constitutively expressed genes. **Operons** activate only when an environmental signal (the user's request) matches their trigger description — like the lac operon switching on in the presence of lactose. This keeps the always-loaded context lean while making specialized knowledge available on demand.
 
 ```
 ~/.claude/
@@ -16,17 +26,24 @@ MESO organizes the symbiosis as a **colonial organism**, inspired by [siphonopho
     00-operator.md           <- Stolon: operator identity and persistent memory
     01-standing-orders.md    <- Autozooid: 9 core operating rules
     02-autonomy.md           <- Nectophore: L1-L4 autonomy calibration
-    03-context.md            <- Gastrozooid: context engineering
     04-security.md           <- Dactylozooid: security protocol
-    05-auditing.md           <- Avicularium: verification and audit
-    06-orchestration.md      <- Gonozooid: parallel agent spawning
-    07-recovery.md           <- Vibraculum: error recovery
     08-communication.md      <- Nerve Net: session and handoff protocol
-    09-evolution.md          <- Ovicell: adaptation and learning
     10-tooling.md            <- Microbiome: tool and permission management
+  skills/
+    orchestration/           <- Gonozooid operon: parallel agent spawning
+    recovery/                <- Vibraculum operon: error recovery
+    auditing/                <- Avicularium operon: verification and audit
+    evolution/               <- Ovicell operon: adaptation and learning
+    context-engineering/     <- Gastrozooid operon: context engineering
 ```
 
-Each zooid handles one domain. They auto-load every session. The colony functions as a single organism.
+## Zooids vs. Operons
+
+**Zooids** (6 files, ~4k tokens) load every turn. They contain rules that apply to every interaction: identity, standing orders, autonomy levels, security, communication protocol, tooling reference.
+
+**Operons** (5 modules, ~100 tokens metadata each) load their full content only when triggered. They contain domain knowledge for specific situations: agent orchestration activates when spawning subagents, recovery activates when errors occur, auditing activates at checkpoints, evolution activates for AARs, context engineering activates when sessions degrade.
+
+The result: the same knowledge base with ~1.5k fewer tokens consumed per turn.
 
 ## The Stolon: Persistent Memory
 
@@ -71,9 +88,10 @@ cd techbiont-framework
 ./install.sh
 ```
 
-The install script:
-- **Symlinks** zooids and genome into `~/.claude/` — updates propagate on `git pull`
+The install script (the **spore** — the colony's delivery mechanism):
+- **Symlinks** zooids and operons into `~/.claude/` — updates propagate on `git pull`
 - **Copies** the stolon and pneumatophore templates — these are yours to customize, never overwritten
+- **Cleans up** old zooid symlinks that have been promoted to operons
 
 After installing, edit:
 1. `~/.claude/CLAUDE.md` — your identity, authorship, organization
