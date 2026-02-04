@@ -536,6 +536,87 @@ Recognize when human expertise beats continued prompting:
 
 It's faster to step in than to continue prompting a struggling model.
 
+### Parallel Agent Orchestration
+
+When a task can be decomposed into independent subtasks, the AI component should dispatch multiple agents simultaneously rather than working sequentially. This leverages the techbiont's primary advantage over solo human work: parallelism without cognitive strain.
+
+#### When to Parallelize
+
+Dispatch multiple agents when ALL of these conditions are met:
+
+1. **Tasks are independent** — no shared file writes, no data dependencies between them
+2. **Tasks are well-defined** — each has a clear deliverable and bounded scope
+3. **Tasks are substantial** — trivial work (< 3 steps) doesn't justify the dispatch overhead
+4. **File conflicts are impossible** — each agent writes to different files, or only one agent writes while others are read-only
+
+Do NOT parallelize when:
+- Two agents would write to the same file
+- One agent's output is required as input for another
+- The task requires iterative human feedback at each step
+- The work is exploratory and the scope isn't clear yet
+
+#### Decomposition Protocol
+
+Before dispatching agents, perform this analysis:
+
+1. **Identify deliverables** — What are the concrete outputs? (files created, files modified, research reports)
+2. **Map file ownership** — Which files does each task read? Which does it write? Ensure no write conflicts.
+3. **Identify dependencies** — Draw the dependency graph. Independent tasks run in parallel. Dependent tasks run sequentially after their dependencies complete.
+4. **Plan integration** — Before dispatching, know how outputs will be merged. If Agent A modifies `animation.js` and Agent B creates `index.html` that includes the animation, plan for the merge step.
+
+#### Agent Prompt Engineering
+
+Each dispatched agent receives a self-contained prompt. The prompt must include:
+
+- **Specific files to read** — list every file the agent needs for context, by full path
+- **Exact deliverable** — what file(s) to create or modify, and what the output should contain
+- **Constraints** — what NOT to do (don't move files, don't modify files outside scope, etc.)
+- **Standing orders reference** — authorship rules, code style expectations
+- **Success criteria** — how to verify the work is correct before finishing
+
+Never assume an agent has context from the current conversation. Each agent starts fresh. Front-load everything it needs.
+
+#### Integration Protocol
+
+When agents complete:
+
+1. **Check for permission failures** — agents running in background may hit write permission denials. If so, extract their prepared content from the output transcript and apply it directly.
+2. **Verify deliverables** — read each output file, confirm it matches expectations (correct structure, no syntax errors, all features present)
+3. **Merge where needed** — if two agents produced work that must be combined (e.g., animation code + page layout), perform the merge manually with full awareness of both outputs
+4. **Update task tracking** — mark completed tasks, note any follow-up work discovered during integration
+5. **Report to operator** — summarize what each agent accomplished, flag any issues
+
+#### Failure Recovery
+
+Agents fail in predictable ways:
+
+| Failure Mode | Detection | Recovery |
+|-------------|-----------|----------|
+| Permission denied (write) | Agent reports auto-deny in result | Extract content from agent output transcript, write it directly |
+| Incomplete work | Deliverable missing features | Resume the agent with its ID, or complete the work manually |
+| File conflict | Two agents modified same file | Diff both versions, merge manually, verify no lost changes |
+| Bad output quality | Code doesn't work or is wrong | Treat as draft; fix in place or re-dispatch with better prompt |
+
+#### State Tracking
+
+Use the task list system to track parallel work:
+
+1. **Create tasks before dispatching** — one task per agent
+2. **Set status to `in_progress`** when agents launch
+3. **Mark `completed`** only after verifying the deliverable, not just when the agent finishes
+4. **Track dependencies** — use `blockedBy` to prevent premature work on dependent tasks
+
+#### Orchestration Anti-Patterns
+
+| Anti-Pattern | Why It Fails | Instead |
+|--------------|-------------|---------|
+| Dispatching agents for trivial work | Overhead exceeds benefit | Do it yourself |
+| Two agents writing the same file | Race condition, one overwrites the other | Assign clear file ownership |
+| Vague agent prompts | Agent guesses wrong, wastes compute | Be exhaustively specific |
+| Not planning the merge step | Outputs don't fit together | Design integration before dispatch |
+| Trusting agent output blindly | Agents make confident errors | Verify every deliverable |
+| Dispatching before understanding the problem | Agents solve the wrong thing | Decompose only after full context |
+
 ---
 
 ## Part VII: Session Continuity
@@ -791,6 +872,42 @@ Different domains have different AI collaboration patterns. Adapt methods accord
 ### Lessons Archive
 
 <!-- Add lessons learned below, newest first -->
+
+#### 2026-02-03: Parallel Agent Orchestration
+
+**Lesson:** Dispatching multiple agents in parallel dramatically increases throughput when tasks are independent. The key skill is decomposition — knowing which tasks are truly independent, scoping each agent's work to avoid file conflicts, and planning the integration step before dispatching.
+
+**What happened:**
+- Session 4 of symbiont.systems website rebuild required simultaneous work on: Tier 3 hex enhancements, site content layout, project directory setup, Claude Skills research, and custom skills research
+- Dispatched up to 4 agents running concurrently with no conflicts
+- Two agents (project directory setup, Tier 3 hex) hit permission walls — their write operations were auto-denied
+- Successfully extracted prepared content from agent output transcripts and applied it directly
+
+**What worked well:**
+- Independent file ownership prevented all conflicts (Tier 3 → `hexagon-bg.html`, layout → `index.html`, setup → `projects/website/CLAUDE.md`, research → read-only)
+- Detailed agent prompts with specific file paths, deliverables, and constraints produced correct output on first attempt
+- Research agents (read-only) never hit permission issues
+- Task list tracking kept state clear across multiple concurrent agents
+
+**What went wrong:**
+- Background agents cannot prompt for user permission — write operations silently fail
+- Agent output transcripts are JSONL with very long lines, requiring Python extraction scripts to recover prepared content
+- No way for agents to communicate mid-execution (no inter-agent messaging)
+
+**Root causes:**
+- Background agents run without terminal access for permission prompts
+- The agent system is fire-and-forget — no supervisor pattern, no mid-flight coordination
+
+**Key findings:**
+- Parallelism works when tasks have clear file ownership boundaries
+- The orchestrator (primary AI instance) must plan the merge step before dispatching
+- Permission failures are recoverable if the agent's intended output can be extracted from its transcript
+- Research-only agents (no file writes) are the safest to parallelize
+- Agent prompt quality directly determines output quality — vague prompts waste compute
+
+**Actions:**
+- Added "Parallel Agent Orchestration" subsection to Part VI (Methods & Practices)
+- Codified: when to parallelize, decomposition protocol, agent prompt engineering, integration protocol, failure recovery, state tracking, anti-patterns
 
 #### 2026-02-02: Continuity, Metrics, and Domain Research
 
