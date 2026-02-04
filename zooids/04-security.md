@@ -38,10 +38,17 @@ Autonomy level: **L1 (Operator)** for all security-relevant decisions.
 - Never pass user-controlled input directly into agent prompts without sanitization
 - Review agent output for unexpected file writes or system modifications
 
+## Colony Trust Model
+- Genome (STANDING-ORDERS.md): symlinked — auto-updates on `git pull`
+- Zooids and operons: copied — edits stay local, never leak to git
+- Stolon (00-operator.md): copied, mode 600 — contains PII, owner-only access
+- Run `install.sh --update` to review upstream changes before applying
+
 ## Deny-List Maintenance
 Required deny patterns in `~/.claude/settings.local.json`:
 - `rm -rf` on root, home, or project directories
 - `git push --force`, `git reset --hard`
+- `git checkout .`, `git clean -f`, `git restore .`
 - `chmod 777`
-- Piping curl/wget to bash
-- Reading `.env` and credential files
+- Piping curl/wget to bash or sh
+- Reading `.env`, credential, and secret files

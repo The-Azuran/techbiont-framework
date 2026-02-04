@@ -35,13 +35,14 @@ The colony has three types of functional units:
     auditing/                <- Avicularium operon: verification and audit
     evolution/               <- Ovicell operon: adaptation and learning
     context-engineering/     <- Gastrozooid operon: context engineering
+    knowledge/               <- Rhopalia operon: structured knowledge capture
 ```
 
 ## Zooids vs. Operons
 
 **Zooids** (6 files, ~4k tokens) load every turn. They contain rules that apply to every interaction: identity, standing orders, autonomy levels, security, communication protocol, tooling reference.
 
-**Operons** (5 modules, ~100 tokens metadata each) load their full content only when triggered. They contain domain knowledge for specific situations: agent orchestration activates when spawning subagents, recovery activates when errors occur, auditing activates at checkpoints, evolution activates for AARs, context engineering activates when sessions degrade.
+**Operons** (6 modules, ~100 tokens metadata each) load their full content only when triggered. They contain domain knowledge for specific situations: agent orchestration activates when spawning subagents, recovery activates when errors occur, auditing activates at checkpoints, evolution activates for AARs, context engineering activates when sessions degrade, knowledge activates when capturing decisions, research, or patterns.
 
 The result: the same knowledge base with ~1.5k fewer tokens consumed per turn.
 

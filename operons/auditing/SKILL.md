@@ -33,6 +33,8 @@ This improves output quality 2-3x.
 - [ ] No work-in-progress left uncommitted
 - [ ] Task list reflects current state
 - [ ] Lessons learned captured if applicable
+- [ ] Significant decisions documented in decision log (if any were made)
+- [ ] Research findings persisted to docs/ with frontmatter (if research was done)
 - [ ] Next steps documented, handoff written if work continues
 
 ## Hallucination Detection

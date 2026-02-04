@@ -838,14 +838,22 @@ Different domains have different AI collaboration patterns. Adapt methods accord
 ### Template
 
 ```markdown
+---
+type: aar
+title: "[Brief Title]"
+date: YYYY-MM-DD
+project: project-slug
+domain: []
+severity: minor | moderate | significant
+scope: "[What was attempted]"
+tags: []
+related-files: []
+---
+
 ## AAR: [Brief Title]
 
-**Date:** YYYY-MM-DD
-**Project:** [Project name]
-**Scope:** [What was attempted]
-
 ### What Happened
-[Factual description of events]
+[Factual description of events — no interpretation]
 
 ### What Went Well
 - [Positive outcomes]
@@ -854,7 +862,7 @@ Different domains have different AI collaboration patterns. Adapt methods accord
 - [Problems encountered]
 
 ### Root Causes
-- [Why problems occurred]
+- [Why problems occurred — dig past symptoms]
 
 ### Lessons Learned
 - [Insights to carry forward]
@@ -868,6 +876,10 @@ Different domains have different AI collaboration patterns. Adapt methods accord
 - Errors caught by audit:
 - Errors that escaped:
 ```
+
+Severity: **minor** (no rework), **moderate** (rework, no data loss), **significant** (data loss, security, systemic).
+
+Full schema: `docs/schemas/knowledge-schemas.md`
 
 ### Lessons Archive
 
@@ -1089,6 +1101,116 @@ Types: feat, fix, refactor, docs, test, chore
 # [Any commands needed to restore state]
 ```
 ```
+
+### Decision Log Template
+
+```markdown
+---
+type: decision
+title: "[Short Decision Title]"
+date: YYYY-MM-DD
+project: project-slug
+domain: []
+status: proposed
+deciders: [valis]
+tags: []
+related-files: []
+---
+
+## Context
+[What prompted this decision]
+
+## Decision
+[What was decided]
+
+## Alternatives Considered
+
+### Alternative A: [name]
+- **Pros:** ...
+- **Cons:** ...
+
+### Alternative B: [name]
+- **Pros:** ...
+- **Cons:** ...
+
+## Rationale
+[Why this alternative was chosen]
+
+## Consequences
+[Expected effects, tradeoffs accepted]
+
+## Review Date
+[When to revisit — leave blank if permanent]
+```
+
+Status: **proposed** → **accepted** → **deprecated** / **superseded**
+
+### Research Doc Template
+
+```markdown
+---
+type: research
+title: "[Research Topic]"
+date: YYYY-MM-DD
+updated: YYYY-MM-DD
+project: project-slug
+domain: []
+status: draft
+confidence: low
+sources:
+  - url: "https://example.com"
+    title: "Source title"
+    accessed: YYYY-MM-DD
+tags: []
+---
+
+## Summary
+[Key findings in 2-3 sentences]
+
+## Findings
+[Detailed findings by subtopic]
+
+## Open Questions
+- [What remains unanswered]
+
+## Sources
+[Expanded source list with notes]
+```
+
+Status: **draft** → **active** → **stale** (90+ days) → **archived**
+
+### Pattern / Recipe Template
+
+```markdown
+---
+type: pattern
+title: "[Pattern Name]"
+date: YYYY-MM-DD
+updated: YYYY-MM-DD
+domain: []
+applicability: universal
+tags: []
+derived-from: []
+prerequisites: []
+---
+
+## Problem
+[What situation triggers this pattern]
+
+## Solution
+[Step-by-step procedure]
+
+## Example
+[Concrete usage from real work]
+
+## Anti-Patterns
+[Common mistakes]
+
+## When NOT to Use
+[Conditions where this pattern is harmful]
+```
+
+Full schemas for all document types: `docs/schemas/knowledge-schemas.md`
 
 ---
 
