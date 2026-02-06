@@ -270,14 +270,101 @@ else
     echo "  [skip]    scratchpad/MANIFEST.md already exists"
 fi
 
+# --- Workspace (persistent artifacts with lifecycle management) ---
+
+WORKSPACE_DIR="$CLAUDE_DIR/workspace"
+mkdir -p "$WORKSPACE_DIR/artifacts/code"
+mkdir -p "$WORKSPACE_DIR/artifacts/research"
+mkdir -p "$WORKSPACE_DIR/artifacts/templates"
+mkdir -p "$WORKSPACE_DIR/artifacts/configs"
+mkdir -p "$WORKSPACE_DIR/archive"
+
+# Create workspace manifest if it doesn't exist
+if [ ! -e "$WORKSPACE_DIR/MANIFEST.md" ]; then
+    cat > "$WORKSPACE_DIR/MANIFEST.md" << 'MANIFEST'
+# Workspace Manifest (Global)
+
+Persistent artifacts with lifecycle management.
+Governed by the workspace operon (Cystozooid Evolved).
+
+## Statistics
+- Artifacts: 0
+- Archives: 0
+- Symlinks: 0
+
+## Recent Activity
+| Date | Action | Artifact | Type |
+|------|--------|----------|------|
+| | | | |
+MANIFEST
+    echo "  [create]  workspace/MANIFEST.md"
+else
+    echo "  [skip]    workspace/MANIFEST.md already exists"
+fi
+
+# Install retention policy config template
+if [ ! -e "$WORKSPACE_DIR/.workspace.conf" ]; then
+    cp "$SCRIPT_DIR/templates/workspace.conf.template" "$WORKSPACE_DIR/.workspace.conf"
+    echo "  [create]  workspace/.workspace.conf"
+else
+    echo "  [skip]    workspace/.workspace.conf already exists"
+fi
+
+# Initialize git repository for global workspace
+if [ ! -d "$WORKSPACE_DIR/.git" ]; then
+    git -C "$WORKSPACE_DIR" init > /dev/null 2>&1
+    git -C "$WORKSPACE_DIR" config user.name "Rowan Valle"
+    git -C "$WORKSPACE_DIR" config user.email "valis@symbiont.systems"
+
+    # Create .gitignore
+    cat > "$WORKSPACE_DIR/.gitignore" << 'GITIGNORE'
+# Ignore ephemeral data
+archive/
+.index.db
+.index.db-*
+
+# Track permanent artifacts
+!artifacts/
+!MANIFEST.md
+!.workspace.conf
+GITIGNORE
+
+    git -C "$WORKSPACE_DIR" add .gitignore MANIFEST.md .workspace.conf > /dev/null 2>&1
+    git -C "$WORKSPACE_DIR" commit -m "feat: initialize MESO workspace" > /dev/null 2>&1
+    echo "  [git]     workspace/.git initialized"
+else
+    echo "  [skip]    workspace/.git already initialized"
+fi
+
+# Check for SQLite3 (required for indexing)
+if ! command -v sqlite3 &> /dev/null; then
+    echo ""
+    echo "  WARNING: sqlite3 not found. Workspace indexing requires SQLite."
+    echo "  Install with: sudo dnf install sqlite"
+    echo ""
+fi
+
+# Initialize SQLite index
+if command -v sqlite3 &> /dev/null && [ ! -e "$WORKSPACE_DIR/.index.db" ]; then
+    sqlite3 "$WORKSPACE_DIR/.index.db" < "$SCRIPT_DIR/templates/workspace-schema.sql"
+    echo "  [create]  workspace/.index.db (SQLite index)"
+else
+    if command -v sqlite3 &> /dev/null; then
+        echo "  [skip]    workspace/.index.db already exists"
+    else
+        echo "  [skip]    workspace/.index.db (SQLite not installed)"
+    fi
+fi
+
 echo ""
 echo "Colony installed."
 echo ""
 echo "Trust model (Hybrid):"
 echo "  Genome     (symlinked)  — auto-updates on git pull"
-echo "  Zooids     (copied)    — decoupled from git, your edits stay local"
-echo "  Operons    (copied)    — decoupled from git, your edits stay local"
-echo "  Scratchpad (local)     — persistent staging area"
+echo "  Zooids     (copied)     — decoupled from git, your edits stay local"
+echo "  Operons    (copied)     — decoupled from git, your edits stay local"
+echo "  Scratchpad (local)      — persistent staging area"
+echo "  Workspace  (git-backed) — persistent artifacts with lifecycle management"
 echo ""
 echo "Next steps:"
 echo "  1. Edit ~/.claude/CLAUDE.md with your identity and authorship info"

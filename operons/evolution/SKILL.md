@@ -21,7 +21,11 @@ After significant sessions or notable incidents, write an AAR:
 1. **Observation** — pattern noticed across sessions
 2. **Lesson** — captured in AAR
 3. **Recurrence** — same lesson appears 3+ times
-4. **Pattern extraction** — file to `docs/knowledge/patterns/` with frontmatter, cross-reference source AARs in `derived-from` field
+4. **Pattern extraction** — search workspace for related artifacts:
+   ```bash
+   /workspace search "<pattern-topic>" --type research
+   ```
+   Aggregate findings from workspace + knowledge base, then file to `docs/knowledge/patterns/` with frontmatter, cross-reference source AARs in `derived-from` field
 5. **Codification** — if the pattern is universal enough, promote to a rule in the appropriate zooid
 6. **Review** — periodic audit for staleness or obsolescence
 

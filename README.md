@@ -36,15 +36,47 @@ The colony has three types of functional units:
     evolution/               <- Ovicell operon: adaptation and learning
     context-engineering/     <- Gastrozooid operon: context engineering
     knowledge/               <- Rhopalia operon: structured knowledge capture
+    scratchpad/              <- Cystozooid operon: ephemeral staging
+    workspace/               <- Cystozooid Evolved operon: persistent artifacts
+  workspace/
+    artifacts/               <- Permanent git-backed artifacts
+      code/
+      research/
+      templates/
+      configs/
+    archive/                 <- Time-limited session archives (30d TTL)
+  scratchpad/                <- Ephemeral WIP (2 sessions / 1 week)
 ```
 
 ## Zooids vs. Operons
 
 **Zooids** (6 files, ~4k tokens) load every turn. They contain rules that apply to every interaction: identity, standing orders, autonomy levels, security, communication protocol, tooling reference.
 
-**Operons** (6 modules, ~100 tokens metadata each) load their full content only when triggered. They contain domain knowledge for specific situations: agent orchestration activates when spawning subagents, recovery activates when errors occur, auditing activates at checkpoints, evolution activates for AARs, context engineering activates when sessions degrade, knowledge activates when capturing decisions, research, or patterns.
+**Operons** (8 modules, ~100 tokens metadata each) load their full content only when triggered. They contain domain knowledge for specific situations: agent orchestration activates when spawning subagents, recovery activates when errors occur, auditing activates at checkpoints, evolution activates for AARs, context engineering activates when sessions degrade, knowledge activates when capturing decisions, research, or patterns, scratchpad activates for ephemeral staging, workspace activates for persistent artifact management.
 
 The result: the same knowledge base with ~1.5k fewer tokens consumed per turn.
+
+## Workspace: Persistent Artifact Lifecycle
+
+The workspace provides three-tier lifecycle management:
+
+```
+Scratchpad (ephemeral) → Archive (time-limited) → Artifacts (permanent)
+```
+
+**Scratchpad** (existing) — Active WIP, stale after 2 sessions, deleted after 1 week
+**Archive** (new) — Session artifacts, 30-day TTL, searchable via SQLite FTS
+**Artifacts** (new) — Reusable cross-project knowledge, git-backed, permanent
+
+**Key capabilities:**
+- **Auto-archiving** — Sessions archived on end with handoff notes and task lists
+- **Full-text search** — SQLite FTS5 index across all artifacts and archives
+- **Promotion workflows** — Manual (during session) and automatic (3+ references)
+- **Cross-project sharing** — Global artifacts symlinked to projects
+- **Retention policies** — Configurable TTL, automatic cleanup
+- **Git versioning** — Global workspace git-backed for history
+
+See the workspace operon (`skills/workspace/SKILL.md`) for comprehensive guidance.
 
 ## The Stolon: Persistent Memory
 

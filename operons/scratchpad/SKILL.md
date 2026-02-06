@@ -131,10 +131,40 @@ Add to project `.gitignore`:
 The manifest persists in git history (so future sessions know what was staged).
 The actual files don't clutter commits, diffs, or status.
 
+## Integration With Workspace Operon
+
+The workspace operon extends scratchpad with lifecycle management:
+
+- **Scratchpad lifecycle**: draft → review → promoted/deleted (unchanged)
+- **On session end**: Archive-worthy items auto-archived to workspace (if retention enabled)
+- **Scratchpad manifest**: Track promotion destination (workspace/artifacts/ or project files)
+
+**No breaking changes** - existing scratchpad workflows continue to work. Workspace is opt-in extension.
+
+**Promotion decision tree:**
+
+```
+Is this reusable across projects?
+├─ Yes → Promote to workspace artifacts
+│         └─ Symlink to project if needed
+└─ No  → Promote directly to project files
+          └─ Delete from scratchpad
+```
+
+**Updated manifest format** (optional, for workspace integration):
+
+```markdown
+| File | Purpose | Target | Status | Created | Last Touched |
+|------|---------|--------|--------|---------|--------------|
+| api-auth.md | FastAPI auth research | workspace/artifacts/research | promoted | 2026-02-06 | 2026-02-06 |
+| docker-setup.sh | Docker install script | project/scripts/ | promoted | 2026-02-05 | 2026-02-06 |
+```
+
 ## Integration With Other Operons
 
 | Operon | Integration |
 |--------|-------------|
+| **Workspace** | Scratchpad is tier 1 (ephemeral). Workspace provides tier 2 (archive) and tier 3 (artifacts). Promote reusable items. |
 | **Orchestration** | Agents target scratchpad instead of project files. Orchestrator promotes after review. |
 | **Recovery** | Snapshots provide rollback points for risky operations. Recovery operon references snapshots. |
 | **Handoff** | Session-end handoff includes scratchpad inventory. Next session starts by checking manifest. |

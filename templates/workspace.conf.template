@@ -1,0 +1,39 @@
+[metadata]
+version = "1.0.0"
+created = "2026-02-06"
+
+[retention]
+# Archive lifecycle
+archive_ttl_days = 30
+archive_promotion_threshold = 3
+archive_size_limit_mb = 100
+
+# Scratchpad lifecycle (existing rules)
+scratchpad_stale_sessions = 2
+scratchpad_dead_days = 7
+
+# Artifact lifecycle
+artifact_unused_warning_days = 180
+artifact_auto_archive_days = 365
+
+[auto_archive]
+enabled = true
+on_session_end = true
+include_agent_output = true
+include_snapshots = false
+min_file_count = 5
+
+[git]
+enabled = true
+auto_commit_artifacts = true
+commit_message_template = "feat(workspace): {action} {type} — {title}"
+
+[search]
+fts_enabled = true
+index_file_contents = true
+max_content_size_kb = 100
+index_agent_output = true
+
+[symlinks]
+allow_cross_project = true
+track_usage = true

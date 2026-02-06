@@ -37,6 +37,14 @@ This improves output quality 2-3x.
 - [ ] Research findings persisted to docs/ with frontmatter (if research was done)
 - [ ] Next steps documented, handoff written if work continues
 
+### Workspace Checks (if workspace operon active)
+- [ ] Scratchpad items promoted or deleted (nothing stale left)
+- [ ] Session archived to workspace (if retention enabled)
+- [ ] Retention policies enforced (old archives cleaned up)
+- [ ] Symlinks validated (no broken links)
+- [ ] Workspace index updated (all artifacts indexed)
+- [ ] Git commits created (for promoted artifacts in global workspace)
+
 ## Hallucination Detection
 
 | Type | How to Detect |
