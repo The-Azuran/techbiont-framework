@@ -1,0 +1,93 @@
+version: '3.9'
+
+services:
+  radicale:
+    image: tomsquest/docker-radicale:latest
+    container_name: meso-radicale
+    restart: unless-stopped
+    ports:
+      - "5233:5232"  # HTTPS port (external:internal)
+    volumes:
+      - ./data:/data
+      - ./config:/config
+      - ./users:/etc/radicale/users:ro
+    environment:
+      - RADICALE_CONFIG=/config/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5232/.web/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+    user: "1000:1000"  # Replace with your UID:GID
+    networks:
+      - meso-calendar
+
+networks:
+  meso-calendar:
+    driver: bridge
+
+# Usage:
+# 1. Create directory structure:
+#    mkdir -p ~/.claude/calendar/{data,config,users}
+#
+# 2. Create Radicale config (~/.claude/calendar/config/config):
+#    [server]
+#    hosts = 0.0.0.0:5232
+#    ssl = false  # TLS termination handled by reverse proxy or self-signed cert
+#
+#    [auth]
+#    type = htpasswd
+#    htpasswd_filename = /etc/radicale/users
+#    htpasswd_encryption = bcrypt
+#
+#    [storage]
+#    filesystem_folder = /data/collections
+#
+#    [web]
+#    type = internal
+#
+#    [logging]
+#    level = info
+#
+# 3. Create htpasswd file:
+#    htpasswd -Bc ~/.claude/calendar/users meso-operator
+#    # Enter password when prompted
+#    # Store same password in keyring: python3 -c "import keyring; keyring.set_password('meso-caldav', 'meso-operator', 'your-password')"
+#
+# 4. Set correct permissions:
+#    chmod 600 ~/.claude/calendar/users
+#    chmod 700 ~/.claude/calendar/{data,config}
+#
+# 5. Start service:
+#    docker-compose up -d
+#
+# 6. Access web UI:
+#    https://localhost:5233/.web/
+#
+# 7. CalDAV URL:
+#    https://localhost:5233/meso-operator/
+#
+# 8. Logs:
+#    docker-compose logs -f radicale
+#
+# 9. Stop service:
+#    docker-compose down
+#
+# TLS/HTTPS Options:
+# - Option A: Self-signed cert (local access only)
+#   openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+#     -keyout ~/.claude/calendar/selfsigned.key \
+#     -out ~/.claude/calendar/selfsigned.crt \
+#     -subj "/CN=localhost"
+#   # Add to Radicale config: ssl = true, certificate = /config/selfsigned.crt, key = /config/selfsigned.key
+#
+# - Option B: Let's Encrypt via Caddy (external access)
+#   # Add Caddy service to docker-compose.yml
+#   # Caddyfile: cal.yourdomain.com { reverse_proxy radicale:5232 }
+#
+# - Option C: Cloudflare Tunnel (external access, no open ports)
+#   # Install cloudflared, setup tunnel
+#   # cloudflared tunnel --url http://localhost:5233

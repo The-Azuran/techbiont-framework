@@ -1,0 +1,53 @@
+[metadata]
+version = "1.0.0"
+created = "YYYY-MM-DD"
+
+[database]
+path = "~/.claude/calendar/.calendar.db"
+backup_enabled = true
+backup_interval_days = 7
+backup_retention_days = 30
+
+[reminders]
+session_start_display = true
+urgency_red_days = 1
+urgency_yellow_days = 3
+urgency_green_days = 7
+max_display_count = 5
+default_reminder_hours_before = 24
+
+[caldav]
+# Phase 2: CalDAV server integration
+enabled = false
+server_url = "https://localhost:5233/"
+username = "meso-operator"
+# Password stored in system keyring: keyring.get_password('meso-caldav', 'meso-operator')
+# To set: python3 -c "import keyring; keyring.set_password('meso-caldav', 'meso-operator', 'your-password')"
+sync_interval_minutes = 15
+conflict_resolution = "last-write-wins"  # or "manual"
+verify_ssl = true
+
+[calcom]
+# Phase 3: Cal.com external scheduling integration
+enabled = false
+mode = "polling"  # or "webhook"
+# API key stored in system keyring: keyring.get_password('meso-calcom', 'api-key')
+# To set: python3 -c "import keyring; keyring.set_password('meso-calcom', 'api-key', 'your-api-key')"
+api_url = "https://api.cal.com/v1"
+polling_interval_minutes = 15
+webhook_port = 8080
+webhook_path = "/calendar/webhook"
+# Webhook secret stored in keyring: keyring.get_password('meso-calcom', 'webhook-secret')
+
+[scanning]
+# Review date scanning from knowledge base
+auto_scan_on_init = true
+scan_patterns = [
+    "docs/knowledge/decisions/*.md",
+    "docs/knowledge/*.md"
+]
+frontmatter_fields = ["review_date", "next_review"]
+text_patterns = [
+    "[Nn]ext [Rr]eview:?\\s*(\\d{4}-\\d{2}-\\d{2})",
+    "[Rr]eview [Dd]ate:?\\s*(\\d{4}-\\d{2}-\\d{2})"
+]
