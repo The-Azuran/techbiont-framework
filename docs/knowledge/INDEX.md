@@ -30,6 +30,7 @@
 | 2026-02-07 | [Security Deny-List: Sources and Maintenance](security-deny-list-sources.md) | security, meso, maintenance |
 | 2026-02-07 | [Open-Source Science Textbook Equivalents](open-source-textbooks-reference.md) | education, reference, science |
 | 2026-02-07 | [Programming Languages Taxonomy and Reference](programming-languages-taxonomy.md) | programming, reference, languages |
+| 2026-02-07 | [Multi-Instance Claude Coordination: Methods and Architecture (2026)](multi-instance-claude-methods.md) | meso, orchestration, architecture, agent-coordination |
 
 ## Patterns
 *None yet.*
