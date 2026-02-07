@@ -628,6 +628,7 @@ Is this reusable across projects?
 | **Knowledge** | Promote high-value research to `docs/knowledge/`. Keep original in workspace. |
 | **Orchestration** | Agents can query workspace for reusable templates before generating new code. |
 | **Recovery** | Workspace archives provide session recovery points beyond git history. |
+| **Retrieval** | Semantic search complements SQLite FTS. Use `/workspace search` for keywords, `/retrieval search` for concepts. |
 
 ### Auditing Checklist Addition
 
@@ -718,6 +719,11 @@ def promote_to_knowledge(artifact_id):
 /workspace history <artifact-id>
 /workspace stats
 ```
+
+**Hybrid Search** (with Retrieval operon):
+- `/workspace search`: SQLite FTS keyword search (fast, exact matches, Boolean queries)
+- `/retrieval search --collection workspace`: Semantic search (concepts, paraphrasing, related ideas)
+- **Best practice**: Try keyword search first, then semantic search for broader results
 
 ### Artifact Management
 

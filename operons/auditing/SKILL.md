@@ -45,6 +45,12 @@ This improves output quality 2-3x.
 - [ ] Workspace index updated (all artifacts indexed)
 - [ ] Git commits created (for promoted artifacts in global workspace)
 
+### Retrieval Checks (if retrieval operon active)
+- [ ] New knowledge documents indexed (run `/retrieval status` to verify)
+- [ ] Collection stats current (chunk count matches expected documents)
+- [ ] Search performance acceptable (queries < 100ms)
+- [ ] Failed searches documented (queries that missed expected results)
+
 ## Hallucination Detection
 
 | Type | How to Detect |

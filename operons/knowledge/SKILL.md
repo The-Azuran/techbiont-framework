@@ -39,6 +39,7 @@ or genome Part XI.
 - Every knowledge directory MUST have an `INDEX.md` listing contents
 - Update the index when adding or archiving documents
 - Use templates from `techbiont-framework/templates/knowledge/`
+- **After filing**: Trigger retrieval indexing with `/retrieval index <path>` to enable semantic search
 
 ## Quality Criteria
 
@@ -94,3 +95,4 @@ For future indexing, write documents that are easy to retrieve:
 | **Auditing** | Session audit checks: were significant decisions logged? |
 | **Scratchpad** | Drafts can stage in scratchpad before finalizing. |
 | **Communication** | Research persistence rule: extensive research goes to docs/, not temp files. |
+| **Retrieval** | Auto-indexes filed documents for semantic search. After filing, trigger `/retrieval index <path>` to make searchable. |
