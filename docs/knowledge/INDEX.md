@@ -28,6 +28,8 @@
 | 2026-02-06 | [RAG Implementation Guide: 2026 Best Practices](rag-implementation-guide-2026.md) | rag, architecture, ai, local-first |
 | 2026-02-06 | [curl Strategic Applications for MESO Operations](curl-strategic-applications.md) | meso, tooling, automation, development |
 | 2026-02-07 | [Security Deny-List: Sources and Maintenance](security-deny-list-sources.md) | security, meso, maintenance |
+| 2026-02-07 | [Open-Source Science Textbook Equivalents](open-source-textbooks-reference.md) | education, reference, science |
+| 2026-02-07 | [Programming Languages Taxonomy and Reference](programming-languages-taxonomy.md) | programming, reference, languages |
 
 ## Patterns
 *None yet.*
