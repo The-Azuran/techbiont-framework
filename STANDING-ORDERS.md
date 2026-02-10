@@ -690,6 +690,75 @@ Claude Code loads memory files automatically at session start:
 
 **Keep memory files lean**—they consume context window space every session.
 
+### MCP Server Integrations
+
+Claude Code supports **Model Context Protocol (MCP)** servers to extend capabilities beyond built-in tools. MCP servers run as background processes and provide specialized tools via structured interfaces.
+
+#### Configuration
+
+**Global config:** `~/.claude/settings.local.json`
+```json
+{
+  "enabledMcpjsonServers": ["filesystem", "memory", "rag"]
+}
+```
+
+**Per-server config:** `~/.claude/integrations/<server-name>/config.json`
+
+#### Available MCP Servers
+
+| Server | Purpose | Tools | Config Location |
+|--------|---------|-------|-----------------|
+| **filesystem** | Enhanced file operations | `read_text_file`, `write_file`, `edit_file`, `list_directory`, `search_files`, `directory_tree` | `~/.claude/integrations/filesystem/` |
+| **memory** | Knowledge graph storage | `create_entities`, `create_relations`, `search_nodes`, `read_graph`, `open_nodes` | `~/.claude/integrations/memory/` |
+| **rag** | Semantic search over docs | `semantic_search`, `index_document`, `list_collections`, `list_documents` | `~/.claude/integrations/rag/` |
+
+#### When to Use MCP Tools vs Built-in Tools
+
+**Prefer built-in tools** (Read, Write, Edit, Grep, Glob) for:
+- Speed and simplicity
+- Single-file operations
+- Project code manipulation
+
+**Use MCP tools** when:
+- **filesystem**: Need directory trees, multi-file reads, advanced search patterns
+- **memory**: Building persistent knowledge graphs across sessions
+- **rag**: Searching large document corpuses semantically
+
+#### Backend Services
+
+Some MCP servers require backend services:
+
+| Service | Used By | Purpose | Start Command |
+|---------|---------|---------|---------------|
+| **Qdrant** | rag | Vector database | `docker-compose up -d qdrant` |
+| **Ollama** | rag | Embeddings generation | `docker-compose up -d ollama` |
+
+**Check status:** `docker ps | grep -E "qdrant|ollama"`
+
+#### Access Control
+
+MCP filesystem server respects `allowedDirectories` in config:
+```json
+{
+  "allowedDirectories": ["/home/Valis", "/home/Valis/code"]
+}
+```
+
+Security deny-list in `settings.local.json` applies to both built-in and MCP tools.
+
+#### Troubleshooting
+
+**MCP server not responding:**
+1. Check `enabledMcpjsonServers` in settings
+2. Verify config.json exists in integration directory
+3. Restart Claude Code session
+4. Check backend services if applicable (`docker ps`)
+
+**Permission denied:**
+- Verify path is in `allowedDirectories` (filesystem)
+- Check settings.local.json deny-list patterns
+
 ### Long-Running Project Strategies
 
 For work spanning days or weeks:
