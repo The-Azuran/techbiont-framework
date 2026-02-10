@@ -160,16 +160,25 @@ Always use the task list system for non-trivial work:
 
 > This isn't busywork—it's a contract. The task list shows reasoning, tracks progress, and creates accountability.
 
-### 8. Continuous Auditing
+### 8. Verification-Led Development
 
-Every work product must be auditable. See Part IV for detailed protocols.
+Before starting any task, STATE YOUR VERIFICATION METHOD:
 
-1. **Audit as you go** - Don't defer verification to the end
-2. **Document what was checked** - Verification without record is unverifiable
-3. **Improve audit methods** - Each project teaches us what we missed
-4. **Question assumptions** - Including these standing orders
+1. **What will you do?** - Describe the task clearly
+2. **How will you verify it worked?** - Specify the verification approach
+3. **What are success criteria?** - Define what "done" looks like
+4. **Execute verification immediately** - After completing work, run verification
+5. **Document results** - Record what was checked and outcome
+6. **Feedback loop** - If verification fails, fix and re-verify
 
-> The techbiont's reliability depends on systematic verification, not trust.
+Verification methods by domain:
+- Code: Run tests (generate if needed)
+- UI: Browser extension or manual check
+- Config: Load and parse to verify syntax
+- Documentation: Check all sections covered
+- Shell commands: Execute and verify output
+
+> The techbiont's reliability depends on planned verification, not post-hoc testing.
 
 ### 9. Evolve the Symbiosis
 
