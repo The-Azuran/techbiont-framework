@@ -1,0 +1,617 @@
+/* Art Deco Theme for Forms - MESO Luxury Aesthetic
+ * 1920s-1930s geometric elegance: gold, black, symmetry, stepped forms
+ * Authored by Rowan Valle; Executed by Claude Code
+ */
+
+:root {
+    /* Art Deco metallic palette */
+    --gold-light: #FFD700;         /* Pure gold */
+    --gold-dark: #B8860B;          /* Dark goldenrod */
+    --gold-brass: #C5A572;         /* Antique brass */
+    --silver: #C0C0C0;             /* Chrome silver */
+    --bronze: #CD7F32;             /* Bronze accent */
+
+    /* Base palette - high contrast */
+    --black-deep: #0a0a0a;         /* Rich black */
+    --black-soft: #1a1a1a;         /* Soft black */
+    --cream: #FFF8DC;              /* Cornsilk cream */
+    --ivory: #FFFFF0;              /* Ivory white */
+
+    /* Accents */
+    --emerald: #50C878;            /* Art deco emerald */
+    --ruby: #E0115F;               /* Art deco ruby */
+    --sapphire: #0F52BA;           /* Art deco sapphire */
+
+    /* Typography */
+    --font-display: 'Playfair Display', 'Georgia', serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+
+    /* Proportions - Golden ratio */
+    --ratio: 1.618;
+    --spacing-base: 1rem;
+    --spacing-small: calc(var(--spacing-base) / var(--ratio));
+    --spacing-large: calc(var(--spacing-base) * var(--ratio));
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background:
+        linear-gradient(135deg,
+            var(--black-deep) 0%,
+            var(--black-soft) 50%,
+            var(--black-deep) 100%);
+    color: var(--cream);
+    line-height: var(--ratio);
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Art Deco sunburst background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background-image:
+        repeating-conic-gradient(
+            from 0deg at 50% 50%,
+            transparent 0deg,
+            rgba(184, 134, 11, 0.03) 0.5deg,
+            transparent 1deg,
+            transparent 10deg
+        );
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stepped border decoration - classic art deco */
+.deco-border {
+    position: relative;
+}
+
+.deco-border::before,
+.deco-border::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(90deg,
+        var(--gold-dark),
+        var(--gold-light),
+        var(--gold-dark));
+}
+
+.deco-border::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    clip-path: polygon(
+        0 0, 10% 0, 10% 100%, 15% 100%, 15% 0, 85% 0, 85% 100%, 90% 100%, 90% 0, 100% 0, 100% 100%, 0 100%
+    );
+}
+
+.deco-border::after {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    clip-path: polygon(
+        0 0, 10% 0, 10% 100%, 15% 100%, 15% 0, 85% 0, 85% 100%, 90% 100%, 90% 0, 100% 0, 100% 100%, 0 100%
+    );
+}
+
+header {
+    background: linear-gradient(180deg,
+        rgba(26, 26, 26, 0.95) 0%,
+        rgba(10, 10, 10, 0.98) 100%);
+    border: 2px solid var(--gold-dark);
+    padding: calc(var(--spacing-base) * var(--ratio));
+    margin-bottom: calc(var(--spacing-base) * var(--ratio));
+    position: sticky;
+    top: 1rem;
+    z-index: 1000;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 215, 0, 0.3),
+        inset 0 -1px 0 rgba(255, 215, 0, 0.2);
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid rgba(192, 192, 192, 0.3);
+    pointer-events: none;
+}
+
+/* Chevron corner decorations */
+header::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 20px;
+    background:
+        linear-gradient(135deg, transparent 30%, var(--gold-light) 30%, var(--gold-light) 35%, transparent 35%),
+        linear-gradient(-135deg, transparent 30%, var(--gold-light) 30%, var(--gold-light) 35%, transparent 35%);
+    background-position: left bottom, right bottom;
+    background-repeat: no-repeat;
+    background-size: 50% 100%;
+}
+
+h1 {
+    font-family: var(--font-display);
+    color: var(--gold-light);
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-small);
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.subtitle {
+    color: var(--silver);
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+.progress-bar {
+    background: var(--black-soft);
+    height: 8px;
+    margin-top: calc(var(--spacing-base) * var(--ratio));
+    position: relative;
+    border: 1px solid var(--gold-dark);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.progress-fill {
+    background: linear-gradient(90deg,
+        var(--bronze) 0%,
+        var(--gold-light) 50%,
+        var(--gold-dark) 100%);
+    height: 100%;
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    position: relative;
+}
+
+/* Stepped edge on progress */
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--gold-light) 100%);
+    clip-path: polygon(
+        0 0, 100% 20%, 100% 40%, 50% 50%, 100% 60%, 100% 80%, 0 100%
+    );
+}
+
+.stats {
+    display: flex;
+    gap: calc(var(--spacing-base) * var(--ratio));
+    margin-top: var(--spacing-base);
+    font-size: 0.85rem;
+    color: var(--silver);
+    justify-content: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.stats span {
+    padding: var(--spacing-small) var(--spacing-base);
+    background: linear-gradient(135deg,
+        rgba(184, 134, 11, 0.2),
+        rgba(197, 165, 114, 0.2));
+    border: 1px solid var(--gold-brass);
+    font-weight: 500;
+}
+
+.section {
+    background: linear-gradient(180deg,
+        rgba(26, 26, 26, 0.9) 0%,
+        rgba(10, 10, 10, 0.95) 100%);
+    border: 2px solid var(--gold-brass);
+    padding: calc(var(--spacing-base) * var(--ratio));
+    margin-bottom: calc(var(--spacing-base) * var(--ratio));
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(197, 165, 114, 0.2);
+    position: relative;
+}
+
+/* Corner brackets - art deco signature */
+.section::before,
+.section::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--gold-light);
+}
+
+.section::before {
+    top: 10px;
+    left: 10px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.section::after {
+    bottom: 10px;
+    right: 10px;
+    border-left: none;
+    border-top: none;
+}
+
+.section-header {
+    font-family: var(--font-display);
+    color: var(--gold-light);
+    font-size: 2rem;
+    margin-bottom: calc(var(--spacing-base) * var(--ratio));
+    padding-bottom: var(--spacing-base);
+    border-bottom: 2px solid var(--gold-dark);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    position: relative;
+}
+
+/* Diamond accent under header */
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: var(--gold-light);
+    border: 1px solid var(--gold-dark);
+}
+
+.question {
+    background: rgba(26, 26, 26, 0.6);
+    border-left: 4px solid var(--gold-brass);
+    padding: calc(var(--spacing-base) * var(--ratio));
+    margin-bottom: calc(var(--spacing-base) * var(--ratio));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question:hover {
+    border-left-color: var(--gold-light);
+    border-left-width: 6px;
+    background: rgba(26, 26, 26, 0.8);
+    transform: translateX(4px);
+    box-shadow: -6px 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.question-title {
+    font-family: var(--font-display);
+    color: var(--gold-light);
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-small);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.context,
+.help-text {
+    color: var(--silver);
+    font-size: 0.9rem;
+    margin-top: var(--spacing-small);
+    font-style: italic;
+    padding-left: var(--spacing-base);
+    border-left: 2px solid rgba(197, 165, 114, 0.3);
+}
+
+/* Likert Scale - Art Deco geometric buttons */
+.likert-scale {
+    border: none;
+    padding: var(--spacing-base) 0;
+}
+
+.scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-base);
+    font-size: 0.85rem;
+    color: var(--gold-brass);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.scale-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.scale-options input {
+    display: none;
+}
+
+.scale-options label {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+        rgba(26, 26, 26, 0.9),
+        rgba(10, 10, 10, 0.9));
+    border: 2px solid var(--gold-brass);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    clip-path: polygon(
+        10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%
+    );
+}
+
+.scale-options label:hover {
+    background: linear-gradient(135deg,
+        rgba(184, 134, 11, 0.3),
+        rgba(197, 165, 114, 0.3));
+    border-color: var(--gold-light);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.scale-options input:checked + label {
+    background: linear-gradient(135deg,
+        var(--gold-dark),
+        var(--gold-light));
+    border-color: var(--gold-light);
+    color: var(--black-deep);
+    box-shadow:
+        0 0 30px rgba(255, 215, 0, 0.8),
+        inset 0 2px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+}
+
+/* Bipolar scale color coding - art deco jewel tones */
+.scale-options label[for*="--"] {
+    background: linear-gradient(135deg,
+        rgba(224, 17, 95, 0.15),
+        rgba(10, 10, 10, 0.9));
+    border-color: rgba(224, 17, 95, 0.5);
+}
+
+.scale-options input:checked + label[for*="--"] {
+    background: linear-gradient(135deg,
+        var(--ruby),
+        #B8006F);
+    border-color: var(--ruby);
+    box-shadow: 0 0 30px rgba(224, 17, 95, 0.8);
+}
+
+.scale-options label[for$="-0"],
+.scale-options label[for$="--0"] {
+    background: linear-gradient(135deg,
+        rgba(184, 134, 11, 0.2),
+        rgba(10, 10, 10, 0.9));
+    border-color: var(--gold-brass);
+    border-width: 3px;
+}
+
+.scale-options input:checked + label[for$="-0"],
+.scale-options input:checked + label[for$="--0"] {
+    background: linear-gradient(135deg,
+        var(--gold-light),
+        var(--gold-dark));
+    border-color: var(--gold-light);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.9);
+}
+
+.scale-options label:not([for*="--"]):not([for$="-0"]) {
+    background: linear-gradient(135deg,
+        rgba(80, 200, 120, 0.15),
+        rgba(10, 10, 10, 0.9));
+    border-color: rgba(80, 200, 120, 0.5);
+}
+
+.scale-options input:checked + label:not([for*="--"]):not([for$="-0"]) {
+    background: linear-gradient(135deg,
+        var(--emerald),
+        #2D8659);
+    border-color: var(--emerald);
+    box-shadow: 0 0 30px rgba(80, 200, 120, 0.8);
+}
+
+/* Text inputs - elegant borders */
+textarea,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="url"] {
+    width: 100%;
+    background: rgba(10, 10, 10, 0.8);
+    color: var(--cream);
+    border: 2px solid var(--gold-brass);
+    padding: var(--spacing-small) var(--spacing-base);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    margin-top: var(--spacing-small);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--gold-light);
+    background: rgba(26, 26, 26, 0.9);
+    box-shadow:
+        0 0 0 3px rgba(255, 215, 0, 0.2),
+        inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Actions panel - elevated luxury */
+.actions {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: linear-gradient(135deg,
+        rgba(26, 26, 26, 0.98),
+        rgba(10, 10, 10, 0.98));
+    border: 2px solid var(--gold-light);
+    padding: var(--spacing-base);
+    display: flex;
+    gap: var(--spacing-small);
+    flex-direction: column;
+    z-index: 100;
+    box-shadow:
+        0 10px 50px rgba(0, 0, 0, 0.9),
+        inset 0 1px 0 rgba(255, 215, 0, 0.3);
+}
+
+button {
+    background: linear-gradient(135deg,
+        var(--gold-dark),
+        var(--gold-light),
+        var(--gold-dark));
+    color: var(--black-deep);
+    border: none;
+    padding: var(--spacing-small) calc(var(--spacing-base) * var(--ratio));
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    position: relative;
+    clip-path: polygon(
+        8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%, 0% 8%
+    );
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 25px rgba(255, 215, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg,
+        var(--gold-light),
+        #FFED4E,
+        var(--gold-light));
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+button.secondary {
+    background: linear-gradient(135deg,
+        var(--silver),
+        #E8E8E8,
+        var(--silver));
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Screen reader only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 479px) {
+    body { padding: 1rem; }
+    h1 { font-size: 1.8rem; }
+    .section { padding: 1rem; }
+    .actions {
+        position: static;
+        width: 100%;
+        margin-top: 2rem;
+        flex-direction: column;
+    }
+    button { width: 100%; }
+    .scale-options { gap: 4px; }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    body { padding: 1.5rem; }
+    h1 { font-size: 2.2rem; }
+    .actions {
+        position: static;
+        width: 100%;
+        margin-top: 2rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    button { flex: 1 1 calc(50% - 0.25rem); }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --gold-light: #FFED4E;
+        --cream: #FFFFFF;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,78 @@
+# Simple Survey Template
+# Basic preference gathering with yes/no and rating questions
+
+title: "Feature Preference Survey"
+description: "Quick survey to gather preferences on upcoming features"
+total_questions: 5
+
+sections:
+  - name: "FEATURE PRIORITIES"
+    questions:
+      - id: "q1-1"
+        title: "Which features interest you most?"
+        context: "Check all that apply"
+        type: "checkbox"
+        options:
+          - value: "feature-a"
+            label: "Feature A: Multi-monitor support"
+          - value: "feature-b"
+            label: "Feature B: Cloud sync"
+          - value: "feature-c"
+            label: "Feature C: Mobile app"
+          - value: "feature-d"
+            label: "Feature D: Team collaboration"
+          - value: "feature-e"
+            label: "Feature E: API access"
+
+      - id: "q1-2"
+        title: "Rank your top priority"
+        type: "radio"
+        options:
+          - value: "feature-a"
+            label: "Feature A"
+          - value: "feature-b"
+            label: "Feature B"
+          - value: "feature-c"
+            label: "Feature C"
+          - value: "feature-d"
+            label: "Feature D"
+          - value: "feature-e"
+            label: "Feature E"
+
+  - name: "SATISFACTION"
+    questions:
+      - id: "q2-1"
+        title: "How satisfied are you with current features?"
+        type: "radio"
+        options:
+          - value: "5"
+            label: "Very satisfied"
+          - value: "4"
+            label: "Satisfied"
+          - value: "3"
+            label: "Neutral"
+          - value: "2"
+            label: "Dissatisfied"
+          - value: "1"
+            label: "Very dissatisfied"
+
+      - id: "q2-2"
+        title: "What would make the product better?"
+        type: "textarea"
+        placeholder: "Suggestions for improvements..."
+
+  - name: "DEMOGRAPHICS"
+    questions:
+      - id: "q3-1"
+        title: "How do you primarily use this product?"
+        type: "radio"
+        options:
+          - value: "personal"
+            label: "Personal projects"
+          - value: "professional"
+            label: "Professional work"
+          - value: "both"
+            label: "Both personal and professional"
+          - value: "other"
+            label: "Other"
+        reasoning: true

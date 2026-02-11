@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{FORM_TITLE}}</title>
+    <style>
+{{TERMINAL_THEME_CSS}}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{FORM_TITLE}}</h1>
+        <div class="subtitle">
+            {{FORM_DESCRIPTION}}<br>
+            Progress auto-saves. Export to JSON when done.
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="stats">
+            <span>Progress: <span id="progressPercent">0</span>%</span>
+            <span>Answered: <span id="answeredCount">0</span> / {{TOTAL_QUESTIONS}}</span>
+            <span class="saved-indicator" id="savedIndicator">✓ Auto-saved</span>
+        </div>
+    </header>
+
+    <form id="form">
+{{SECTIONS}}
+    </form>
+
+    <div class="actions">
+        <button type="button" id="saveBtn">💾 Save</button>
+        <button type="button" id="exportBtn">📥 Export JSON</button>
+        <button type="button" id="clearBtn" class="secondary">🗑️ Clear</button>
+        <button type="button" id="printBtn" class="secondary">🖨️ Print</button>
+    </div>
+
+    <script>
+{{FORM_JAVASCRIPT}}
+    </script>
+</body>
+</html>

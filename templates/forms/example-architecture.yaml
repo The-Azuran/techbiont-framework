@@ -1,0 +1,173 @@
+# Architectural Decision Template
+# Use for gathering structured architectural decisions on complex projects
+
+title: "Architectural Decision Framework"
+description: "Structured decision-making for technical architecture"
+total_questions: 6
+
+sections:
+  - name: "FUNDAMENTAL ARCHITECTURE"
+    questions:
+      - id: "q1-1"
+        title: "System Architecture Pattern"
+        context: "Choose the core architectural approach for this system"
+        type: "radio"
+        options:
+          - value: "monolith"
+            label: "Monolithic Architecture"
+            description: "Single codebase, simpler deployment, easier local development"
+            recommended: false
+            pros:
+              - "Simpler to develop initially"
+              - "Easier debugging (single process)"
+              - "No network latency between components"
+            cons:
+              - "Harder to scale independently"
+              - "Tighter coupling"
+            implementation: "Low complexity (1-2 weeks)"
+
+          - value: "microservices"
+            label: "Microservices Architecture"
+            description: "Distributed services, independent scaling, service boundaries"
+            recommended: true
+            pros:
+              - "Independent scaling"
+              - "Technology flexibility"
+              - "Team autonomy"
+            cons:
+              - "Higher operational complexity"
+              - "Network latency overhead"
+              - "Distributed debugging challenges"
+            implementation: "High complexity (4-6 weeks)"
+
+          - value: "modular-monolith"
+            label: "Modular Monolith"
+            description: "Single deployment with well-defined module boundaries"
+            recommended: false
+            pros:
+              - "Balance of simplicity and structure"
+              - "Can migrate to microservices later"
+            cons:
+              - "Still shares deployment fate"
+            implementation: "Medium complexity (2-3 weeks)"
+
+        reasoning: true
+        comments: true  # For additional thoughts, concerns, or context
+
+        follow_ups:
+          - title: "How many services/modules?"
+            type: "number"
+            placeholder: "Enter number (e.g., 5)"
+
+          - title: "Primary programming language?"
+            type: "text"
+            placeholder: "e.g., TypeScript, Python, Go"
+
+      - id: "q1-2"
+        title: "Data Storage Strategy"
+        context: "Database architecture impacts scalability, consistency, and complexity"
+        type: "radio"
+        options:
+          - value: "single-db"
+            label: "Single Database (Shared)"
+            pros:
+              - "Simpler operations"
+              - "ACID transactions across all data"
+            cons:
+              - "Single point of failure"
+              - "Coupling through schema"
+
+          - value: "db-per-service"
+            label: "Database per Service"
+            recommended: true
+            pros:
+              - "Service independence"
+              - "Technology flexibility"
+            cons:
+              - "Distributed transactions complex"
+              - "Data consistency challenges"
+
+          - value: "hybrid"
+            label: "Hybrid (Core DB + Service DBs)"
+            pros:
+              - "Flexibility where needed"
+            cons:
+              - "Complexity managing both patterns"
+
+        reasoning: true
+        comments: true
+
+  - name: "API DESIGN"
+    questions:
+      - id: "q2-1"
+        title: "API Style"
+        type: "radio"
+        options:
+          - value: "rest"
+            label: "REST API"
+            recommended: true
+          - value: "graphql"
+            label: "GraphQL"
+          - value: "grpc"
+            label: "gRPC"
+          - value: "mixed"
+            label: "Mixed (REST + GraphQL/gRPC)"
+
+        reasoning: true
+        comments: true
+
+      - id: "q2-2"
+        title: "API Features"
+        context: "Check all that apply"
+        type: "checkbox"
+        options:
+          - value: "versioning"
+            label: "API versioning"
+          - value: "auth"
+            label: "Authentication/Authorization"
+          - value: "rate-limiting"
+            label: "Rate limiting"
+          - value: "caching"
+            label: "Response caching"
+          - value: "pagination"
+            label: "Pagination"
+          - value: "filtering"
+            label: "Filtering/Sorting"
+          - value: "webhooks"
+            label: "Webhooks"
+          - value: "real-time"
+            label: "Real-time updates (WebSocket/SSE)"
+
+  - name: "DEPLOYMENT & INFRASTRUCTURE"
+    questions:
+      - id: "q3-1"
+        title: "Hosting Strategy"
+        type: "radio"
+        options:
+          - value: "cloud-managed"
+            label: "Cloud Managed (Vercel, Netlify, Render)"
+            recommended: true
+          - value: "cloud-vms"
+            label: "Cloud VMs (AWS EC2, GCP Compute)"
+          - value: "containers"
+            label: "Containers (Docker + Kubernetes)"
+          - value: "serverless"
+            label: "Serverless (Lambda, Cloud Functions)"
+          - value: "hybrid"
+            label: "Hybrid approach"
+
+        reasoning: true
+
+  - name: "IMPLEMENTATION PRIORITIES"
+    questions:
+      - id: "q4-1"
+        title: "MVP Timeline Estimate"
+        context: "How many weeks to minimum viable product?"
+        type: "number"
+        placeholder: "Weeks"
+
+      - id: "q4-2"
+        title: "Phase 1 Features"
+        context: "What goes in the initial release?"
+        type: "textarea"
+        placeholder: "List Phase 1 features..."

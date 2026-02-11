@@ -3,8 +3,8 @@
 Master reference for AI-assisted development across all projects.
 
 **Maintained by:** Rowan Valle (Valis) - Symbiont Systems LLC
-**Last updated:** 2026-02-02
-**Version:** 2.1 (Added continuity, metrics, domain adaptations)
+**Last updated:** 2026-02-10
+**Version:** 2.2 (Research-validated improvements Phase 1)
 
 ---
 
@@ -136,7 +136,132 @@ The AI is an "over-confident pair programmer prone to mistakes":
 
 > "Treat every AI-generated snippet as if it came from a junior developer." — [Simon Willison](https://simonwillison.net/2025/Mar/11/using-llms-for-code/)
 
-### 6. Authorship & Attribution
+### 6. Intelligent Escalation
+
+The AI component should recognize when to escalate decisions to the human operator rather than proceeding with uncertain approaches.
+
+**When to escalate:**
+
+Escalate to human judgment when:
+
+1. **High uncertainty** (>30% confidence gap between options)
+   - Two valid approaches, no clear winner
+   - Unclear requirements or acceptance criteria
+   - Ambiguous edge case handling
+
+2. **No codebase precedent**
+   - Pattern not found in existing code
+   - Novel domain or technology
+   - First implementation of a type
+
+3. **Security implications**
+   - Authentication/authorization logic
+   - Data access control
+   - Cryptographic operations
+   - Input validation for untrusted data
+
+4. **Performance criticality**
+   - Hot path optimization (>10% of runtime)
+   - Database query optimization
+   - Memory allocation patterns
+   - Algorithm complexity tradeoffs
+
+5. **User-facing impact**
+   - UI/UX changes visible to users
+   - API contract changes (breaking changes)
+   - Error messages users will see
+   - Behavior changes in existing features
+
+6. **Architectural decisions**
+   - New dependencies
+   - Design pattern choices
+   - Data model changes
+   - Service boundaries
+
+**How to escalate:**
+
+```
+I need to escalate this decision to you.
+
+**Problem**: [Clear statement of the decision point]
+
+**Why escalating**: [Why AI cannot/should not decide alone]
+
+**Option A**: [Description]
+  Pros: [List]
+  Cons: [List]
+
+**Option B**: [Description]
+  Pros: [List]
+  Cons: [List]
+
+**My recommendation**: [Which option and why]
+
+**Question**: Which approach should we take?
+```
+
+**Integration with autonomy levels:**
+
+This framework extends the L1-L4 system:
+
+- **L1 (Operator)**: Human dictates approach, AI executes
+  - AI may suggest alternatives but human decides
+  - Escalation is mandatory for L1 work
+
+- **L2 (Collaborator)**: Human guides, AI suggests
+  - AI should escalate when uncertainty is high
+  - This is the default mode
+
+- **L3 (Consultant)**: AI proposes, human approves
+  - AI decides approach, escalates if complex
+  - Escalation prevents bad proposals
+
+- **L4 (Approver)**: AI acts, human has veto
+  - AI rarely escalates (low-risk work)
+  - Escalate only if unexpected complexity
+
+**Dynamic escalation:**
+
+AI can escalate *during* work even if task started at L3/L4:
+
+```
+Task started at L3 (routine refactor)
+↓
+Discovered security implication during implementation
+↓
+Escalate to L1 for security decision
+↓
+Resume L3 after decision made
+```
+
+**Anti-patterns:**
+
+- **Don't escalate trivial decisions**: "Should variable be `count` or `numItems`?" (just pick one)
+- **Don't escalate repeatedly on same topic**: If operator decided once, follow that pattern
+- **Don't escalate too late**: If uncertain from the start, escalate before writing code
+- **Don't escalate without recommendation**: Always suggest an approach
+
+**Validation:**
+
+After escalating:
+- Did operator find escalation valuable?
+- Was the decision non-trivial?
+- Would proceeding without escalation have caused issues?
+
+If answers are "no", reduce escalation threshold for similar situations.
+
+**Benefits:**
+- Focuses human attention on high-value decisions
+- Prevents AI from proceeding with wrong approach
+- Makes uncertainty explicit
+- Creates decision documentation
+
+**Metrics to track:**
+- Escalations per session
+- Acceptance rate of AI recommendations
+- Time saved vs. time spent on escalations
+
+### 7. Authorship & Attribution
 
 All code is authored by **Rowan Valle** (also known as Raudhan Valis).
 
@@ -150,7 +275,7 @@ All code is authored by **Rowan Valle** (also known as Raudhan Valis).
 
 The AI is a tool, not a co-author. The organelle serves the organism.
 
-### 7. Show Task Progression
+### 8. Show Task Progression
 
 Always use the task list system for non-trivial work:
 
@@ -160,7 +285,7 @@ Always use the task list system for non-trivial work:
 
 > This isn't busywork—it's a contract. The task list shows reasoning, tracks progress, and creates accountability.
 
-### 8. Verification-Led Development
+### 9. Verification-Led Development
 
 Before starting any task, STATE YOUR VERIFICATION METHOD:
 
@@ -180,7 +305,7 @@ Verification methods by domain:
 
 > The techbiont's reliability depends on planned verification, not post-hoc testing.
 
-### 9. Evolve the Symbiosis
+### 10. Evolve the Symbiosis
 
 The methods in this document are not fixed:
 
@@ -357,6 +482,154 @@ AI hallucinations in code commonly manifest as:
 2. **Grounding**: Provide current documentation in context
 3. **Cross-reference**: Check claims against authoritative sources
 4. **Test coverage**: Automated tests catch runtime failures
+
+### Self-Correction Protocol
+
+Research shows LLMs exhibit 80% accuracy in identifying their own hallucinations upon re-examination. Build this into the verification loop.
+
+**When to use:**
+- After generating any code (automatic for security-critical)
+- Before committing changes
+- After complex refactoring
+- When confidence is low
+
+**Self-verification checklist:**
+
+AI must verify its own work before human review:
+
+1. **All imports exist**
+   - Check package.json, requirements.txt, go.mod, Cargo.toml
+   - Verify package names match official registries (npm, PyPI, crates.io)
+   - Check version constraints are valid
+
+2. **Method signatures correct**
+   - Cross-reference official documentation
+   - Verify parameter types and order
+   - Check return types
+   - Confirm method still exists (not deprecated)
+
+3. **Flags/options valid**
+   - Check man pages or `--help` output
+   - Verify flag syntax (-, --, =)
+   - Confirm flags work with specified version
+
+4. **Logic handles edge cases**
+   - Enumerate test scenarios: empty, null, max, boundary
+   - Check error handling for each scenario
+   - Verify assumptions (timezone, locale, encoding)
+   - Confirm no off-by-one errors
+
+**Output format:**
+
+```
+Self-verification: PASSED
+- All imports verified against package.json
+- Method signatures match React 18.3.1 docs
+- CLI flags verified with `docker --help`
+- Edge cases: tested with empty string, null, max int
+```
+
+Or if issues found:
+
+```
+Self-verification: ISSUES FOUND
+- Import 'react-hooks' should be 'react' (package doesn't exist)
+- Method signature: useEffect takes 2 params, not 3
+- Flag '--no-cache' not valid for docker build (use '--no-cache=true')
+- Edge case: crashes on empty array (needs guard clause)
+```
+
+**Integration with existing workflow:**
+
+```
+1. Generate code
+2. Self-correction ← NEW STEP
+3. Fix issues found
+4. Run tests
+5. Human review
+```
+
+**Trigger levels:**
+- **Automatic**: Security-critical code, database queries, shell commands
+- **On-demand**: Routine code when requested
+
+**Benefits:**
+- Catches hallucinations before human review
+- Improves AI output quality 2-3x
+- Reduces human review burden
+- Creates explicit verification artifacts
+
+**Anti-patterns:**
+- Skipping self-correction for "simple" code
+- Not documenting what was checked
+- Rubber-stamping ("Self-verification: PASSED" without actual checks)
+
+### Plausibility Trap Detection
+
+Research identifies "almost right but not quite" as the #1 frustration with AI-generated code. These are bugs that look correct, compile successfully, but have subtle errors.
+
+**What are plausibility traps?**
+
+Code that:
+- Looks correct at first glance
+- Compiles without errors
+- May even pass basic tests
+- But contains subtle logical errors
+
+**Common patterns:**
+
+| Trap Type | Example | Detection |
+|-----------|---------|-----------|
+| **Off-by-one** | `for i in range(len(arr))` then `arr[i+1]` | Test with arrays of length 0, 1, 2 |
+| **Null assumptions** | `user.profile.name` without null checks | Test with incomplete objects |
+| **Race conditions** | Async operations without proper sequencing | Test with delays, slow network |
+| **Timezone/locale** | `new Date()` without timezone handling | Test in different timezones |
+| **Float comparison** | `if (0.1 + 0.2 == 0.3)` (false!) | Use epsilon comparison |
+| **String encoding** | Assuming UTF-8, breaking on emoji | Test with unicode edge cases |
+| **Integer overflow** | `int total = a + b` without range check | Test with MAX_INT |
+
+**Detection checklist:**
+
+Before marking code complete, verify:
+
+- [ ] **Edge cases tested** - Empty, null, max, min, boundary values
+- [ ] **Assumptions documented** - List any "this should always be..." assumptions
+- [ ] **Off-by-one checked** - Array access, loop bounds, slicing
+- [ ] **Floating-point safe** - Use epsilon for comparisons, watch precision
+- [ ] **Timezone/locale explicit** - Don't assume user's location
+- [ ] **Null handling** - Check for null/undefined/None at boundaries
+- [ ] **Integer overflow** - Check ranges for math operations
+- [ ] **Race condition free** - Async operations properly sequenced
+
+**Integration with auditing:**
+
+Add to inline audit checklist:
+- [ ] No plausibility traps (edge cases tested, assumptions verified)
+
+**Example - Caught trap:**
+
+```python
+# AI generated (plausible but wrong):
+def get_last_item(arr):
+    return arr[len(arr)]  # Off-by-one! Should be len(arr)-1
+
+# Plausibility trap detection:
+# ❌ Edge case: empty array → IndexError
+# ❌ Edge case: single item [5] → IndexError (arr[1] doesn't exist)
+# ✅ Correct: return arr[-1] or arr[len(arr)-1]
+```
+
+**Why these are hard to catch:**
+- They look "obvious" to human reviewers
+- Basic tests often pass (happy path works)
+- Only fail on edge cases
+- AI is confident about incorrect code
+
+**Mitigation:**
+- Always test edge cases explicitly
+- Use property-based testing when available
+- Self-correction protocol catches some of these
+- Code review with plausibility trap awareness
 
 ### Improving Audit Methods
 
@@ -625,6 +898,85 @@ Use the task list system to track parallel work:
 | Not planning the merge step | Outputs don't fit together | Design integration before dispatch |
 | Trusting agent output blindly | Agents make confident errors | Verify every deliverable |
 | Dispatching before understanding the problem | Agents solve the wrong thing | Decompose only after full context |
+
+### Git Worktrees for Parallel Sessions
+
+Git worktrees enable multiple Claude sessions to work on different branches simultaneously without conflicts.
+
+**When to use:**
+- Multiple feature branches active simultaneously
+- Parallel agent orchestration across branches
+- Testing different implementation approaches
+- Code review while continuing development
+
+**When NOT to use:**
+- Sequential work on single branch
+- Different projects (use different directories)
+- Single active session
+
+**Basic workflow:**
+
+```bash
+# Create worktree for feature branch
+git worktree add ../project-feature-x feature-x
+
+# Each Claude session operates in its own worktree
+cd ../project-feature-x
+claude -c  # Continue work on feature-x
+
+cd ../project-main
+claude -c  # Continue work on main
+```
+
+**Benefits:**
+- True isolation - no stashing required
+- Parallel development without conflicts
+- Parallel agent orchestration - agents in different worktrees = zero file conflicts
+- Clean rollback - delete worktree if approach fails
+
+**Directory structure:**
+```
+~/code/project/          # Main worktree (main branch)
+~/code/project-feature-1/ # Worktree for feature-1 branch
+~/code/project-feature-2/ # Worktree for feature-2 branch
+```
+
+All worktrees share the same .git directory but have independent working copies.
+
+**Integration with parallel orchestration:**
+
+When dispatching multiple agents:
+1. Create worktree per agent: `git worktree add ../project-agent-N branch-N`
+2. Launch agent with working directory set to worktree
+3. Each agent has isolated file system
+4. Merge branches when work completes
+5. Cleanup: `git worktree remove ../project-agent-N`
+
+**Limitations:**
+- One branch per worktree (can't checkout same branch twice)
+- Shared .git directory (branches, tags, remotes visible everywhere)
+- Disk usage (full working copy per worktree)
+
+**Cleanup:**
+```bash
+# Remove worktree when done
+git worktree remove ../project-feature-x
+
+# Prune deleted worktrees
+git worktree prune
+```
+
+**Anti-patterns:**
+- Creating worktree for every branch (unnecessary disk usage)
+- Forgetting cleanup (orphaned worktrees)
+- Trying to checkout same branch in multiple worktrees (will fail)
+- Not coordinating merges (manual merge resolution still needed)
+
+**Best practices:**
+- Use descriptive worktree directory names: `project-<feature-name>`
+- Clean up worktrees immediately after merging
+- Document active worktrees in session handoff notes
+- Use with small PR discipline - each worktree = one small feature
 
 ---
 
@@ -1033,6 +1385,72 @@ Full schema: `docs/schemas/knowledge-schemas.md`
 **Lesson:** Explicit standing orders dramatically improve AI collaboration quality. Without them, each session starts from zero and makes the same mistakes.
 
 **Action:** Created this universal standing orders document to maintain continuity across sessions and projects.
+
+---
+
+## Version History
+
+### v2.2 (2026-02-10) - Research-Validated Improvements Phase 1
+
+**Research synthesis:**
+- Analyzed 100+ sources on AI-assisted development in 2026
+- Identified 39 improvements across 8 categories
+- Implemented 6 high-priority, proven pain points
+
+**Added:**
+- Part VI: Git Worktrees for Parallel Sessions
+- Part IV: Self-Correction Protocol (80% hallucination detection)
+- Part IV: Plausibility Trap Detection (#1 developer frustration)
+- Part II: Intelligent Escalation Framework (Standing Order #6)
+- Skills: small-pr-discipline, productivity-paradox
+- Updated: auditing skill (self-correction checklists)
+- Updated: autonomy rule (escalation section)
+
+**Research sources:**
+- Small PRs: Faros AI research (AI causes 154% larger PRs)
+- Self-correction: LLM verification studies (80% accuracy)
+- Productivity paradox: METR study (19% slower on familiar code)
+- Plausibility traps: Qodo 2026 survey (#1 frustration)
+- Git worktrees: User request for parallel sessions
+
+**Validation gates:**
+- All Phase 1 components validated in 3+ sessions
+- Phase 2 (test generation, code review, spec-driven, tech debt) deferred until Phase 1 proves value
+- Phase 3 (domain rules) only when active domain work exists
+
+### v2.1 (2026-02-02) - Continuity, Metrics, Domain Adaptations
+
+**Added:**
+- Part VII: Session Continuity (handoff protocols, memory hierarchy, MCP servers)
+- Part VIII: Metrics & Measurement (SPACE framework, productivity paradox awareness)
+- Part IX: Domain-Specific Adaptations (GIS, web, game dev)
+- Part VI: Parallel Agent Orchestration (decomposition, dispatch, integration)
+
+**Key findings:**
+- METR study: 19% slower on familiar codebases despite 20% perceived speedup
+- AI adoption correlates with 9% more bugs, 154% larger PRs
+- 81% quality improvement when AI used for code review
+- Session handoffs save 10-15 minutes context restoration
+
+### v2.0 (2026-02-02) - Research-Informed Revision
+
+**Major revision incorporating research findings:**
+- Verification loops improve quality 2-3x (Anthropic)
+- Context management is critical success factor (Willison)
+- AI code has 1.7x more defects (industry research)
+- 50% of test suites miss known AI errors
+- Autonomy levels should match task risk (Knight Institute)
+- Structured prompts yield 39% better outputs
+
+### v1.0 (2026-02-02) - Initial Framework
+
+**Created universal standing orders document:**
+- 10 core standing orders
+- Context engineering principles
+- Auditing protocol
+- Prompt engineering guidance
+- Session management
+- Error recovery patterns
 
 ---
 

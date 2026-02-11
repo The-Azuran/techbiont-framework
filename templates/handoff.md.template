@@ -1,0 +1,43 @@
+---
+session_id: "{session_id}"
+date: "{date}"
+time_start: "{time_start}"
+time_end: "{time_end}"
+duration_minutes: {duration_minutes}
+project: "{project}"
+topic: "{topic}"
+tags: {tags}
+git_branch: "{git_branch}"
+commits: {commits}
+---
+
+# Session Handoff: {title}
+
+## Summary
+{summary}
+
+## Completed
+{completed}
+
+## In Progress
+{in_progress}
+
+## Next Steps
+{next_steps}
+
+## Blockers
+{blockers}
+
+## Decisions Made
+{decisions}
+
+## Files Modified
+{files_modified}
+
+## Commands Run
+```bash
+{commands_run}
+```
+
+## Context Notes
+{context_notes}

@@ -1,0 +1,66 @@
+schema_version: "2.0"
+title: "Bipolar Scale Examples"
+description: "Demonstrating negative-to-positive rating scales with zero in the middle"
+total_questions: 5
+
+settings:
+  theme: "biopunk"
+
+sections:
+  - name: "SENTIMENT ANALYSIS"
+    questions:
+      - id: "agreement"
+        title: "To what extent do you agree with the following statement: 'AI-human symbiosis is the future of knowledge work'?"
+        type: "likert"
+        min: -5
+        max: 5
+        min_label: "Strongly Disagree"
+        max_label: "Strongly Agree"
+        help_text: "0 = Neutral, negative values = disagree, positive values = agree"
+        validation:
+          required: true
+
+      - id: "change_direction"
+        title: "How do you expect your reliance on AI tools to change over the next year?"
+        type: "likert"
+        min: -5
+        max: 5
+        min_label: "Decrease Significantly"
+        max_label: "Increase Significantly"
+        help_text: "0 = No change expected"
+
+  - name: "PERFORMANCE ASSESSMENT"
+    questions:
+      - id: "productivity_impact"
+        title: "How has using AI assistants impacted your productivity?"
+        type: "likert"
+        min: -5
+        max: 5
+        min_label: "Much Worse"
+        max_label: "Much Better"
+        help_text: "0 = No noticeable impact"
+        validation:
+          required: true
+
+      - id: "code_quality"
+        title: "Rate the quality change in your code since adopting AI assistance"
+        type: "likert"
+        min: -5
+        max: 5
+        min_label: "Significantly Worse"
+        max_label: "Significantly Better"
+        help_text: "0 = No change in quality"
+
+  - name: "PHILOSOPHICAL POSITION"
+    questions:
+      - id: "butlerian_spectrum"
+        title: "Where do you fall on the Butlerian Jihad spectrum?"
+        type: "likert"
+        min: -5
+        max: 5
+        min_label: "Destroy All Machines"
+        max_label: "Full Techno-Optimist"
+        help_text: "0 = Cautious pragmatist, -5 = Butlerian purist, +5 = Embrace the singularity"
+        context: "From Dune's anti-AI crusade to unbounded faith in technology"
+        validation:
+          required: true

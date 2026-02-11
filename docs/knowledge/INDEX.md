@@ -11,6 +11,7 @@
 | Date | Title | Status | Domain |
 |------|-------|--------|--------|
 | 2026-02-04 | [Markdown with YAML frontmatter for knowledge documents](decisions/2026-02-04-knowledge-document-format.md) | accepted | meso, architecture |
+| 2026-02-09 | [AECO: Adaptive Exocortical Organelle Classification](decisions/2026-02-09-aeco-classification.md) | accepted | architecture, taxonomy, knowledge-management |
 
 ## Proposals (Awaiting Decision)
 | Date | Title | Status | Domain |
@@ -31,14 +32,25 @@
 | 2026-02-07 | [Open-Source Science Textbook Equivalents](open-source-textbooks-reference.md) | education, reference, science |
 | 2026-02-07 | [Programming Languages Taxonomy and Reference](programming-languages-taxonomy.md) | programming, reference, languages |
 | 2026-02-07 | [Multi-Instance Claude Coordination: Methods and Architecture (2026)](multi-instance-claude-methods.md) | meso, orchestration, architecture, agent-coordination |
+| 2026-02-07 | [News Ticker Design Patterns: Comparative Analysis](news-ticker-design-patterns.md) | ux, ui-patterns, information-architecture, design |
+| 2026-02-08 | [Local Organelle: MESO-Native Fine-Tuning Strategy](local-organelle-fine-tuning-strategy.md) | meso, architecture, ai, hardware, sovereignty |
 
 ## Patterns
-*None yet.*
+| Date | Title | Domain |
+|------|-------|--------|
+| 2026-02-07 | [Interactive Ticker and Feed Patterns](interactive-ticker-feed-patterns.md) | ux, patterns, real-time, interaction-design |
 
 ## Documentation
 | Date | Title | Type |
 |------|-------|------|
 | 2026-02-06 | [Workspace Migration Guide](../workspace-migration.md) | guide |
+| 2026-02-07 | [News Ticker Design: Quick Reference](news-ticker-quick-reference.md) | quick-reference |
+
+## Philosophy
+| Date | Title | Domain |
+|------|-------|--------|
+| 2026-02-07 | [Boring Code Philosophy](boring-code-philosophy.md) | coding-style, philosophy, maintainability |
+| 2026-02-07 | [Code Clarity Research](code-clarity-research.md) | cognitive-science, programming, research |
 
 ---
-*Last updated: 2026-02-07*
+*Last updated: 2026-02-09*

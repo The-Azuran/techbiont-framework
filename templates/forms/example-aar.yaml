@@ -1,0 +1,67 @@
+# After Action Report Template
+# Use this for session retrospectives and lessons learned
+
+title: "After Action Report"
+description: "Session retrospective - capture what worked, what didn't, and lessons learned"
+total_questions: 8
+
+sections:
+  - name: "SESSION OVERVIEW"
+    questions:
+      - id: "q1-1"
+        title: "Session Date & Duration"
+        type: "text"
+        placeholder: "e.g., 2026-02-07, 2 hours"
+
+      - id: "q1-2"
+        title: "Primary Goal"
+        context: "What were you trying to accomplish?"
+        type: "textarea"
+        placeholder: "Describe the main objective of this session..."
+
+      - id: "q1-3"
+        title: "Participants"
+        type: "text"
+        placeholder: "Operator, AI agent, other collaborators"
+
+  - name: "WHAT HAPPENED"
+    questions:
+      - id: "q2-1"
+        title: "Session Timeline"
+        context: "Key events in order"
+        type: "textarea"
+        placeholder: "1. Started with X\n2. Then tried Y\n3. Encountered Z..."
+
+      - id: "q2-2"
+        title: "What Went Well"
+        type: "textarea"
+        placeholder: "Successes, wins, things that worked better than expected..."
+        comments: true
+
+      - id: "q2-3"
+        title: "What Went Poorly"
+        context: "Blockers, failures, inefficiencies"
+        type: "textarea"
+        placeholder: "Problems encountered, time wasted, approaches that failed..."
+        comments: true
+
+  - name: "LESSONS & IMPROVEMENTS"
+    questions:
+      - id: "q3-1"
+        title: "Key Lessons Learned"
+        context: "What should we remember for next time?"
+        type: "textarea"
+        placeholder: "1. Lesson one\n2. Lesson two..."
+
+      - id: "q3-2"
+        title: "Action Items"
+        context: "Concrete changes to make based on this session"
+        type: "textarea"
+        placeholder: "1. Update rule X\n2. Create zooid for Y\n3. Document pattern Z..."
+
+  - name: "METRICS"
+    questions:
+      - id: "q4-1"
+        title: "Session Metrics"
+        type: "textarea"
+        placeholder: "Time spent, commits made, files modified, token usage, etc."

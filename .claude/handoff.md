@@ -289,3 +289,418 @@ Rowan emphasized:
 **Session Status**: ✅ COMPLETE - Ready for restart and implementation
 
 Next session: Pick up where we left off, implement all three agent deliverables with proper permissions.
+
+---
+
+## ADDENDUM: Forms Operon Implementation ✅
+
+**Date**: 2026-02-07 (same session, after initial handoff)
+**Status**: ✅ Complete and tested
+
+### What Was Built
+
+**Forms Operon** - Interactive HTML form generator from YAML definitions
+- **Biological metaphor**: Cnidocyte (Precision Strike)
+- **Location**: `~/.claude/skills/forms/SKILL.md`
+- **Trigger**: "form", "questionnaire", "survey", "decision framework", "configuration wizard"
+- **Purpose**: Convert structured decisions into fillable HTML forms with terminal styling
+
+### Files Created
+
+```
+~/.claude/skills/forms/SKILL.md              # Operon definition (complete documentation)
+
+templates/forms/
+  base-form.html                            # HTML template with placeholders
+  terminal-theme.css                        # MESO terminal aesthetic CSS
+  form-logic.js                             # Auto-save, progress, export logic
+  example-architecture.yaml                 # Architectural decision template
+  example-aar.yaml                          # After Action Report template
+  example-survey.yaml                       # Simple survey template
+```
+
+### Form Features
+
+- ✅ **Auto-save to localStorage** - Never lose progress
+- ✅ **Progress tracking** - Visual bar, % complete, answered count
+- ✅ **Export to JSON** - Machine-readable decision capture
+- ✅ **Print support** - PDF-ready output
+- ✅ **Clear/reset** - Start over functionality
+- ✅ **Mobile-responsive** - Works on phones/tablets
+- ✅ **Terminal theme** - Matches MESO aesthetic (dark, monospace, amber accents)
+- ✅ **Offline-first** - Self-contained HTML, no external dependencies
+
+### Question Types Supported
+
+1. **radio** - Single choice (mutually exclusive)
+2. **checkbox** - Multiple choice
+3. **text** - Short text input
+4. **textarea** - Long text input
+5. **number** - Numeric input
+6. **ranking** - Rank options 1-10
+
+### Advanced Features
+
+- Option pros/cons lists
+- Implementation complexity estimates
+- Recommended badges (visual highlight)
+- Follow-up questions (conditional)
+- Reasoning text areas
+- Cultural configuration notes
+- Ranking with min/max values
+
+### Usage Examples
+
+**Natural language**: "Create a form for architectural decisions with 5 sections"
+→ AI generates YAML definition → produces HTML form
+
+**YAML-based**: Provide YAML definition directly
+→ AI processes YAML → generates form
+
+**Template-based**: "Use the AAR template"
+→ AI loads template, customizes, generates
+
+### Reference Implementation
+
+Ticker architecture form used as reference:
+- **Location**: `/home/Valis/code/github.com/the-azuran/margin/.claude/ticker-architecture-form-FULL.html`
+- **Size**: 33 questions across 10 sections
+- **Opened in browser** for operator review
+- CSS and JavaScript extracted into reusable templates
+
+### Integration Points
+
+- **Knowledge operon**: Form JSON → knowledge documents
+- **Evolution operon**: AAR forms → rule updates
+- **Workspace operon**: Forms as team artifacts
+
+### Next Steps for Forms
+
+1. Test natural language generation ("Create a form for X")
+2. Test YAML-based generation
+3. Verify all form features work:
+   - Auto-save persists across page refresh
+   - Progress tracking updates correctly
+   - Export produces valid JSON
+   - Mobile layout responsive
+   - Print formatting works
+4. Use for real decision-making (test with upcoming projects)
+
+### Why This Matters
+
+**Problem**: Complex decisions need structured input. Markdown questionnaires are hard to fill out, answers get lost, no progress tracking.
+
+**Solution**: Interactive forms with auto-save, progress tracking, JSON export. Pattern is reusable for architectural decisions, AARs, surveys, configuration wizards.
+
+**Impact**: Thorough decision-making without friction. "We are a thorough people here brother!" - Operator wants ALL questions, comprehensive frameworks. Forms operon enables that.
+
+---
+
+## ADDENDUM 2: Comments Feature Added ✅
+
+**Date**: 2026-02-07 (same session, operator feedback)
+**Status**: ✅ Complete
+
+### What Changed
+
+Added `comments` field to questions - allows freeform thoughts, context, or "shooting the shit about the idea" (operator's words).
+
+**Difference from `reasoning`**:
+- **reasoning**: formal justification for your answer
+- **comments**: informal thoughts, tangents, additional context
+
+Both can be used on the same question.
+
+### Implementation
+
+**SKILL.md updated**:
+- Documented `comments: true` field
+- Added "Optional Fields" section explaining reasoning vs comments
+
+**CSS updated** (`terminal-theme.css`):
+- `.comments-label` - italic, secondary color
+- `textarea.comments` - green left border, italic text
+- Visual distinction from reasoning (which has blue left border)
+
+**Example YAMLs updated**:
+- `example-architecture.yaml` - added comments to 4 questions
+- `example-aar.yaml` - added comments to 2 questions (wins/losses)
+
+### Usage
+
+```yaml
+questions:
+  - id: "q1-1"
+    title: "Architecture approach?"
+    type: "radio"
+    options: [...]
+    reasoning: true   # "Why did you choose this?"
+    comments: true    # "Any other thoughts?"
+```
+
+Operator tested with ticker architecture form, loved it, wanted comments feature. Now implemented.
+
+---
+
+**Final Session Status**: ✅ COMPLETE
+- Margin deliverables ready (ticker, editor, collections)
+- Forms operon implemented and documented
+- Comments feature added per operator feedback
+- Ready for next session
+
+---
+
+## ADDENDUM 3: Ticker Architecture Decisions Captured ✅
+
+**Date**: 2026-02-07 (same session, form analysis)
+**Status**: ✅ Complete - Strategic direction defined
+
+### What Happened
+
+Operator completed 33-question ticker architecture form. Analyzed all decisions and captured comprehensive strategic direction for Margin.
+
+### Key Strategic Insights
+
+**Product Identity**:
+- "Margin Terminal" = internal only (need external branding)
+- Desktop research platform first, mobile secondary
+- Target: Power users doing rigorous research
+
+**Architecture**:
+- Hybrid multi-ticker approach
+- Workspace concept: max 6 tickers per workspace
+- Progressive disclosure (1-4 default, up to 6 advanced, unlimited workspaces)
+- Dual-mode (Discovery scroll, Monitor flip)
+- Top+bottom positioning
+
+**Design Philosophy**:
+- Trust user intelligence, full customization
+- Complexity OK if well-documented
+- Art deco/synthwave/cyberpunk minimal aesthetic (NOT millennial Facebook/Notion)
+- Copy: thorough, explanatory, professional (NOT edgy)
+
+**Business Model**:
+- Cloud sync = paid service
+- Advanced features = upsells (command palette, multi-monitor, prediction markets, collaboration)
+- Building towards client intranet/portal platform
+
+**Critical Concerns**:
+- Filter bubbles harm effectiveness - need serendipity slider + diverse content toggle
+- Visual aesthetic needs work
+- Current design "looks too millennial Facebook/Notion"
+
+### MVP Priorities (Rank 1 = must have)
+
+**Phase 1 (1 week)**:
+- Multi-ticker architecture with workspaces
+- Flip + scroll animations
+- Dual-mode with presets (News, Finance, Gov Transparency, Science, Tech)
+- Pause controls (all types)
+- Read/unread tracking
+- Saved configurations
+- Priority-based color coding
+
+**Deferred**:
+- Mobile (rank 10 - low priority)
+- Alerts (rank 7)
+- WebSockets (rank 7 - use polling for MVP)
+- Gov APIs (blocked on data lake completion)
+
+### Research Actions Required
+
+**Spawn 4 agents** (can run parallel to Phase 1):
+
+1. **Filter bubble escape mechanisms** (CRITICAL)
+   - Rowan wants both serendipity slider + diverse content toggle
+   - Research mitigation strategies, academic studies
+   - "I don't want our shit to lock people into bubbles"
+
+2. **Information processing speed psychology**
+   - What ticker speeds are useful for humans?
+   - "Maybe we need to hit up some psychological studies"
+
+3. **Visual aesthetic research**
+   - Art deco/synthwave/cyberpunk minimal
+   - NOT millennial Facebook/Notion style
+   - "Might be another questionnaire lol" (he was right!)
+
+4. **Data lake documentation review**
+   - Understand current state of Gov API normalization
+   - Timeline for integration
+   - "Focus on RSS feeds first, data lake comes later"
+
+### Documentation Created
+
+**Knowledge document**: `margin/docs/knowledge/ticker-architecture-decisions-2026-02-07.md`
+- 33 questions analyzed
+- Strategic direction captured
+- Implementation recommendations
+- Research actions defined
+- Open questions documented
+
+**Form export**: `margin/.claude/forms/exports/2026-02-07-ticker-architecture.json`
+- All answers with reasoning and comments preserved
+- Mineable for future reference
+
+### Open Questions
+
+1. **Workspace layout**: How do 6 tickers arrange? Grid? Flexible?
+2. **External branding**: What do we call this publicly? (NOT "Margin Terminal")
+3. **Workspace naming**: Dashboard vs Vault vs Workspace vs TBD?
+4. **Gov API timeline**: When is data lake ready?
+
+### Rowan's Feedback
+
+**On the form**: "This document is badass, and I love how we did this in order to figure out how we would go about building this thing."
+
+**On complexity**: "We can code complexity into our products, so long as everything is always annotated properly and understandable to the next programmer."
+
+**On users**: "We trust in the users intelligence."
+
+**On migration**: "We have no fucking users right now." (Big-bang changes OK)
+
+**On research questions**: "If you find anything in this document I might have written, or whatever, we can discuss it further. Anything you have questions on, again, please ask me."
+
+---
+
+**Final Session Status**: ✅ COMPLETE & READY FOR HANDOFF
+- Forms operon: implemented + comments feature
+- Form export system: established in `.claude/forms/`
+- Ticker decisions: analyzed, documented, actionable
+- Research agents: ready to spawn (4 topics identified)
+- Implementation: Phase 1 scoped (1 week)
+- Knowledge captured: comprehensive strategic direction
+
+**Next session priorities**:
+1. Spawn 4 research agents (parallel)
+2. Design Phase 1 implementation plan (1 week)
+3. OR: Operator provides new direction
+
+---
+
+## ADDENDUM 4: Data Lake Strategic Discussion ✅
+
+**Date**: 2026-02-07 (same session, pre-handoff discussion)
+**Status**: ✅ Scoped - Ready for independent project planning
+
+### Critical Context Established
+
+**Data lake is NOT a Margin component - it's platform infrastructure.**
+
+**Multi-product architecture**:
+```
+Data Lake (Independent Service)
+    ↓ API
+    ├─→ Margin (news/research terminal)
+    ├─→ Groundwork (unknown details)
+    └─→ Future products
+```
+
+### Architectural Implications
+
+**Standalone codebase**:
+- Own repository
+- Independent deployment
+- Versioned API contract
+- Multi-tenant ready
+
+**Serves multiple products**:
+- Margin: ticker data, search, alerts
+- Groundwork: (details TBD)
+- Future: Other Symbiont Systems products
+
+**Scale considerations**:
+- Aggregate volume across all products
+- Horizontal scaling required from start
+- Proper monitoring/observability
+- Cache layer, queuing, load balancing
+
+**Business model**:
+- Data infrastructure as a service
+- Potential revenue: API access, premium sources, analytics
+
+### Technology Stack Considerations
+
+**More likely choices** (given scale/multi-product):
+- **Option B architecture** (Clickhouse + Object Storage)
+- Queuing: RabbitMQ or Kafka for ingestion pipeline
+- Cache: Redis for hot data
+- API: REST + WebSocket (maybe GraphQL)
+- Auth: Multi-tenant, rate limiting, API keys
+
+**Less likely** (too simple for platform play):
+- Single PostgreSQL instance
+- No queuing
+- No cache layer
+
+### Data Sources (Comprehensive)
+
+**Current**:
+- RSS feeds (multiple news sources)
+
+**Phase 2**:
+- 10 US Government APIs (CDC, NOAA, USPTO, NASA, USDA, EPA, FTC, DOJ, Treasury, FCC)
+
+**Future**:
+- International government APIs (incremental)
+- Social streams (Twitter, Reddit)
+- Prediction markets
+- Financial data
+- Academic research feeds
+- Whatever else Groundwork needs
+
+### Open Questions for Data Lake Planning
+
+**1. Groundwork requirements**
+- What is Groundwork?
+- What data does it need?
+- Query patterns different from Margin?
+
+**2. API design**
+- REST only or also GraphQL?
+- WebSocket for real-time?
+- Batch export capabilities?
+
+**3. Multi-tenancy**
+- Per-product API keys?
+- Rate limiting strategy?
+- Usage tracking/billing?
+
+**4. Data retention**
+- How long to keep historical data?
+- Archive strategy?
+- Cold storage tier?
+
+**5. SLA requirements**
+- Uptime targets?
+- Query latency budgets?
+- Ingestion freshness guarantees?
+
+**6. Hosting**
+- Self-hosted or cloud?
+- Which cloud provider?
+- Budget constraints?
+
+### Next Steps
+
+**Operator instruction**: "Get ready to handoff and prepare for development of the data lake plan as an independent codebase that our other apps can call through API."
+
+**Action for next session**:
+1. Create data lake project plan
+2. Independent codebase strategy
+3. API-first architecture design
+4. Multi-product requirements gathering
+5. Technology stack selection
+6. Deployment strategy
+7. Cost modeling
+
+**Status**: Ready to begin data lake planning as separate project
+
+---
+
+**Final Session Status**: ✅ COMPLETE & READY FOR HANDOFF
+- Forms operon: implemented + comments feature ✅
+- Form export system: established ✅
+- Ticker decisions: analyzed, documented ✅
+- Data lake scope: clarified as platform infrastructure ✅
+- Next session: Data lake independent project planning

@@ -1,0 +1,161 @@
+# YAML Schema v2.0 - Validation & Conditional Logic Example
+# Demonstrates all Phase 2 features
+
+schema_version: "2.0"
+title: "Project Configuration Wizard"
+description: "Smart form with validation and conditional logic"
+total_questions: 8
+
+settings:
+  theme: "terminal"
+  mode: "standard"
+  save_interval: 2000
+  show_progress: true
+  allow_partial_export: true
+
+validation_presets:
+  email:
+    pattern: "^[^@]+@[^@]+\\.[^@]+$"
+    error_message: "Enter a valid email address (user@domain.com)"
+  slug:
+    pattern: "^[a-z0-9-]+$"
+    min_length: 3
+    max_length: 50
+    error_message: "Use lowercase letters, numbers, and hyphens only (3-50 characters)"
+  url:
+    pattern: "^https?://.*"
+    error_message: "Enter a valid URL starting with http:// or https://"
+
+sections:
+  - name: "PROJECT BASICS"
+    questions:
+      - id: "project-name"
+        title: "Project Name"
+        context: "A short, memorable name for this project"
+        type: "text"
+        placeholder: "my-awesome-project"
+
+        validation:
+          required: true
+          preset: "slug"
+
+        help_text: "Use lowercase with hyphens (e.g., my-project)"
+        tooltip: "This will be used for URLs and file names"
+
+      - id: "project-description"
+        title: "Project Description"
+        type: "textarea"
+        placeholder: "Describe what this project does..."
+        rows: 3
+
+        validation:
+          required: true
+          min_length: 20
+          max_length: 500
+          error_message: "Description must be between 20-500 characters"
+
+      - id: "deployment-target"
+        title: "Where will this be deployed?"
+        type: "radio"
+        options:
+          - value: "cloud"
+            label: "Cloud (AWS, GCP, Azure)"
+            description: "Managed infrastructure, auto-scaling"
+          - value: "self-hosted"
+            label: "Self-Hosted (VPS, bare metal)"
+            description: "Full control, manual management"
+          - value: "local"
+            label: "Local Development Only"
+            description: "Not planning to deploy publicly"
+
+        validation:
+          required: true
+
+  - name: "CLOUD CONFIGURATION"
+    questions:
+      - id: "cloud-provider"
+        title: "Which cloud provider?"
+        type: "radio"
+
+        # Only show if deployment target is cloud
+        show_if: "deployment-target == 'cloud'"
+        required_if: "deployment-target == 'cloud'"
+
+        options:
+          - value: "aws"
+            label: "AWS (Amazon Web Services)"
+          - value: "gcp"
+            label: "GCP (Google Cloud Platform)"
+          - value: "azure"
+            label: "Azure (Microsoft)"
+          - value: "other"
+            label: "Other cloud provider"
+
+      - id: "budget"
+        title: "Monthly budget (USD)"
+        type: "number"
+        placeholder: "500"
+
+        # Only show for cloud deployments
+        show_if: "deployment-target == 'cloud'"
+
+        validation:
+          min: 0
+          max: 100000
+          error_message: "Budget must be between $0-$100,000"
+
+  - name: "TEAM & CONTACT"
+    questions:
+      - id: "team-size"
+        title: "How many developers?"
+        type: "number"
+        placeholder: "3"
+
+        validation:
+          required: true
+          min: 1
+          max: 100
+          error_message: "Team size must be 1-100"
+
+      - id: "has-dedicated-ops"
+        title: "Do you have a dedicated ops/DevOps engineer?"
+        type: "radio"
+        options:
+          - value: "yes"
+            label: "Yes"
+          - value: "no"
+            label: "No"
+
+        validation:
+          required: true
+
+      - id: "primary-contact"
+        title: "Primary contact email"
+        type: "text"
+        placeholder: "you@example.com"
+
+        # Only required for cloud deployments
+        required_if: "deployment-target == 'cloud'"
+
+        validation:
+          preset: "email"
+
+  - name: "ADVANCED OPTIONS"
+    questions:
+      - id: "custom-domain"
+        title: "Custom domain (optional)"
+        type: "text"
+        placeholder: "https://example.com"
+
+        # Disabled for local-only projects
+        disabled_if: "deployment-target == 'local'"
+
+        validation:
+          preset: "url"
+
+      - id: "notes"
+        title: "Additional notes or requirements"
+        type: "textarea"
+        placeholder: "Any special requirements, constraints, or considerations..."
+        rows: 4
+        comments: true

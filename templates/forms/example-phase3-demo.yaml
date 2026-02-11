@@ -1,0 +1,100 @@
+# Phase 3 Demo - New Components + Biopunk Theme
+# Showcases: star-rating, likert, range, importance, biopunk aesthetic
+
+schema_version: "2.0"
+title: "User Experience Feedback"
+description: "Help us improve - Rate your experience with our product"
+total_questions: 7
+
+settings:
+  theme: "biopunk"
+  mode: "standard"
+  show_progress: true
+
+sections:
+  - name: "OVERALL SATISFACTION"
+    questions:
+      - id: "overall-rating"
+        title: "How would you rate your overall experience?"
+        type: "star-rating"
+        max: 5
+        labels:
+          min: "Poor"
+          max: "Excellent"
+
+        validation:
+          required: true
+
+      - id: "recommendation"
+        title: "How likely are you to recommend us to a colleague?"
+        type: "likert"
+        min: 1
+        max: 10
+        min_label: "Not at all likely"
+        max_label: "Extremely likely"
+
+        help_text: "1 = Not at all likely, 10 = Extremely likely"
+
+        validation:
+          required: true
+
+  - name: "FEATURE RATINGS"
+    questions:
+      - id: "ease-of-use"
+        title: "How easy was the product to use?"
+        type: "star-rating"
+        max: 5
+        labels:
+          min: "Very difficult"
+          max: "Very easy"
+
+      - id: "performance"
+        title: "How would you rate the performance?"
+        type: "likert"
+        min: 1
+        max: 10
+        min_label: "Very slow"
+        max_label: "Lightning fast"
+
+      - id: "value-for-money"
+        title: "Rate the value for money"
+        type: "star-rating"
+        max: 5
+        labels:
+          min: "Poor value"
+          max: "Excellent value"
+
+  - name: "PRIORITIES"
+    questions:
+      - id: "speed-importance"
+        title: "How important is speed to you?"
+        type: "importance"
+        min: 1
+        max: 10
+        default: 5
+        min_label: "Not important"
+        max_label: "Critical"
+
+        help_text: "Drag the slider to indicate priority level"
+
+      - id: "budget-range"
+        title: "What's your monthly budget?"
+        type: "range"
+        min: 0
+        max: 1000
+        step: 50
+        default: 500
+        unit: "$"
+        show_value: true
+
+        help_text: "Select your approximate monthly budget"
+
+  - name: "ADDITIONAL FEEDBACK"
+    questions:
+      - id: "improvement-areas"
+        title: "What should we improve?"
+        type: "textarea"
+        placeholder: "Share your thoughts on what we could do better..."
+        rows: 4
+
+        comments: true
