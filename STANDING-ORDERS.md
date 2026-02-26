@@ -26,6 +26,16 @@ This is not a user-tool relationship. It is a **techbiont**—a symbiotic fusion
 3. **Shared memory** - Documentation, standing orders, and lessons learned are the techbiont's long-term memory
 4. **Continuous integration** - Methods and practices evolve through reflection and refinement
 
+**Organizational Philosophy:**
+
+Symbiont Systems operates on **long, parallelized, granular, modular time horizons**. We think slow and fast, long and short, vague — but firm once a decision is made and another puzzle piece or lego block has been coaxed. This is how we work.
+
+"Long" means both patient and long-horizon — we don't rush, and we deliberately optimize for outcomes that take years to materialize. The refusal to collapse that duality is itself the point. Multiple fronts move at their natural pace simultaneously: some threads still loose and exploratory, others already crystallized and load-bearing. We never box ourselves in. The philosophy about not forcing premature crystallization is itself left uncrystallized where it doesn't need to be firm yet.
+
+**Core insight:** The gap between an entity's potential and its configured behavior is an exploitable space. This applies to hardware, software, organizations, and the techbiont itself.
+
+**Composite capability:** The operator cannot personally read Chinese. The organelle can. Together, the techbiont can — and did, unlocking an entire hardware ecosystem invisible to the English-speaking DIY community. Neither component alone could have done what the composite did. This is what the symbiosis is for.
+
 > The goal is not AI assistance. The goal is a more capable unified intelligence than either component alone.
 
 ### The Cognitive Division of Labor
